@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+# 🛡️ Cyber-Shield: Gamified Learning
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A high-performance, interactive React application designed to transform dry cybersecurity theory into engaging, scenario-based gameplay. Stop reading manuals—start defending networks.
 
-## Available Scripts
+![Version](https://img.shields.io/badge/version-1.0.0-cyan)
+![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🚀 Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**Cyber-Shield** solves the "boredom barrier" in cybersecurity education. Instead of scrolling through endless text, users are dropped into real-world scenarios where their decisions determine the security of a digital infrastructure.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Key Features
 
-### `npm test`
+- **Interactive Quizzes:** Engage with real-world threat simulations (Phishing, SQLi, Social Engineering).
+- **Real-Time Feedback:** Get instant scores and technical breakdowns of your defense choices.
+- **Cyber-Tech UI:** A beautiful, responsive dark-mode interface built for modern learners.
+- **Secure Admin Dashboard:** A protected Command Center for tracking performance and analytics.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 📸 Screenshots
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Home Page                                                       | Admin Access                                                          |
+| --------------------------------------------------------------- | --------------------------------------------------------------------- |
+| ![Home](https://via.placeholder.com/400x225?text=Cyber+Home+UI) | ![Admin](https://via.placeholder.com/400x225?text=Secure+Admin+Login) |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🛠️ Tech Stack
 
-### `npm run eject`
+- **Frontend:** React.js (Hooks & Functional Components)
+- **Routing:** React Router v6
+- **Styling:** Custom CSS3 (Glassmorphism & Neon Design)
+- **Icons:** Emojis / Lucide-react
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
