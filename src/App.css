@@ -36,3 +36,48 @@
     transform: rotate(360deg);
   }
 }
+
+/* App.css */
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.8); /* Matches the dark background */
+  backdrop-filter: blur(10px); /* Glass effect */
+  position: sticky;
+  padding: 10px 0;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-container {
+  display: flex;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 6px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #94a3b8;
+  padding: 8px 20px;
+  border-radius: 40px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Active link style (Standard React Router behavior) */
+.nav-link.active {
+  color: #22d3ee;
+  background: rgba(34, 211, 238, 0.1);
+  box-shadow: inset 0 0 10px rgba(34, 211, 238, 0.1);
+}
