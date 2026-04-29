@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   BarChart,
@@ -10,14 +10,49 @@ import {
   ResponsiveContainer,
   LineChart,
   Line,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
 
 const UserDashboard = ({ data }) => {
   const navigate = useNavigate();
   const quizzes = data?.quizzes || [];
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const postData = async () => {
+      try {
+        const response = await fetch(process.env.REACT_APP_AXIOS_POST_URL, {
+          method: "POST",
+          signal: signal,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // Wrapping 'data' in an object so the backend can destructure it
+          body: JSON.stringify({ data: [data] }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+      } catch (error) {
+        if (error.name === "AbortError") {
+          console.log("Post aborted");
+        } else {
+          console.error("Error:", error);
+        }
+      }
+    };
+
+    // Only fire the request if 'data' actually exists
+    if (data) {
+      postData();
+    }
+
+    return () => controller.abort();
+  }, [data]); // Add 'data' here if you want it to sync whenever the prop changes
 
   // Logic: Calculate Advanced Metrics
   const metrics = useMemo(() => {
@@ -47,8 +82,6 @@ const UserDashboard = ({ data }) => {
 
     return { avgScore, avgRisk, totalTime, accuracy, verdict, color };
   }, [quizzes]);
-
-  const COLORS = ["#22d3ee", "#fb7185", "#f59e0b", "#a855f7"];
 
   return (
     <div

@@ -100,8 +100,6 @@ function Quiz() {
         };
         updatedArray = [...prevUsers, newUser];
       }
-
-      console.log("Updated Users Data Array:", updatedArray);
       return updatedArray;
     });
   };

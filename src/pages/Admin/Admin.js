@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Admin.css";
-import { sample } from "./data";
 
 function Admin() {
   const [password, setPassword] = useState("");
@@ -9,7 +8,17 @@ function Admin() {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const [showRetries, setShowRetries] = useState(false);
+  const [data, setData] = useState([]);
   const [viewMode, setViewMode] = useState("participants"); // "participants" or "scenarios"
+
+  useEffect(() => {
+    fetch(process.env.REACT_APP_AXIOS_FETCH_URL)
+      .then((response) => response.json())
+      .then((json) => {
+        setData(json);
+      })
+      .catch((error) => console.error("Error:", error));
+  }, []);
 
   const CORRECT_PASSWORD = "cyberSecurityPassword123@!";
 
@@ -25,13 +34,13 @@ function Admin() {
 
   // --- 1. Data Filtering Logic ---
   const getProcessedData = () => {
-    if (showRetries) return sample;
+    if (showRetries) return data;
 
     // Filter for only the first occurrence of each email
     const uniqueParticipants = [];
     const seenEmails = new Set();
 
-    sample.forEach((user) => {
+    data.forEach((user) => {
       if (!seenEmails.has(user.email)) {
         seenEmails.add(user.email);
         uniqueParticipants.push(user);
@@ -70,7 +79,7 @@ function Admin() {
 
   const totalParticipants = activeData.length;
   const retryCount = showRetries
-    ? sample.length - new Set(sample.map((u) => u.email)).size
+    ? data.length - new Set(data.map((u) => u.email)).size
     : 0;
 
   // --- Helper: Get Rating Logic ---
