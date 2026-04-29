@@ -8,7 +8,7 @@ import "./App.css"; // Ensure you import the CSS
 
 import Home from "./pages/Home/Home";
 import Admin from "./pages/Admin/Admin";
-import Quiz from "./pages/Quiz";
+import Quiz from "./pages/Quiz/Quiz";
 
 function App() {
   return (

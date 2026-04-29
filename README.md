@@ -21,14 +21,6 @@ A high-performance, interactive React application designed to transform dry cybe
 
 ---
 
-## 📸 Screenshots
-
-| Home Page                                                       | Admin Access                                                          |
-| --------------------------------------------------------------- | --------------------------------------------------------------------- |
-| ![Home](https://via.placeholder.com/400x225?text=Cyber+Home+UI) | ![Admin](https://via.placeholder.com/400x225?text=Secure+Admin+Login) |
-
----
-
 ## 🛠️ Tech Stack
 
 - **Frontend:** React.js (Hooks & Functional Components)

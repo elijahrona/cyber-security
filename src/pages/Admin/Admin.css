@@ -89,3 +89,204 @@
 .btn-secondary:hover {
   color: white;
 }
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.admin-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.card-title {
+  margin: 0 0 15px 0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #94a3b8;
+}
+
+.card-main-val {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.card-sub-val {
+  color: #475569;
+  font-size: 0.85rem;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.stats-row div {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-row span {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.stats-row strong {
+  font-size: 1.1rem;
+}
+
+/* Custom Checkbox Toggle Style */
+.admin-toggle {
+  width: 40px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Slider / Segmented Control */
+.view-slider-container {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0 20px;
+}
+
+.slider-track {
+  position: relative;
+  display: flex;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px;
+  border-radius: 12px;
+  width: 400px;
+}
+
+.slider-track button {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #64748b;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 2;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.slider-track button.active {
+  color: #0f172a;
+}
+
+.slider-thumb {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  width: calc(50% - 4px);
+  background: #22d3ee;
+  border-radius: 8px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.slider-thumb.right {
+  transform: translateX(100%);
+}
+.slider-thumb.left {
+  transform: translateX(0);
+}
+
+/* Table Styling */
+.table-container {
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.admin-table th {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 15px 20px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #94a3b8;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.admin-table td {
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 0.9rem;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+.user-info span {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.download-section {
+  margin-top: 40px;
+  padding: 30px;
+  background: rgba(34, 211, 238, 0.03);
+  border-radius: 20px;
+  border: 1px solid rgba(34, 211, 238, 0.1);
+}
+
+.download-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.download-notice {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.field-legend h4 {
+  color: #22d3ee;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.legend-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.legend-item strong {
+  font-size: 0.85rem;
+  color: #e2e8f0;
+}
+
+.legend-item span {
+  font-size: 0.75rem;
+  color: #64748b;
+  line-height: 1.4;
+}
