@@ -35,8 +35,6 @@ const UserDashboard = ({ data }) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-
-        const result = await response.json();
       } catch (error) {
         if (error.name === "AbortError") {
           console.log("Post aborted");
