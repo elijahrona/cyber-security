@@ -2,6 +2,15 @@ import React, { useState, useEffect } from "react";
 import "./Quiz.css";
 import TaskOne from "./Tasks/TaskOne"; // Ensure path is correct
 import TaskTwo from "./Tasks/TaskTwo";
+import TaskThree from "./Tasks/TaskThree";
+import TaskFour from "./Tasks/TaskFour";
+import TaskFive from "./Tasks/TaskFive";
+import TaskSix from "./Tasks/TaskSix";
+import TaskSeven from "./Tasks/TaskSeven";
+import TaskEight from "./Tasks/TaskEight";
+import TaskNine from "./Tasks/TaskNine";
+import TaskTen from "./Tasks/TaskTen";
+import UserDashboard from "./Tasks/UserDashboard";
 
 function Quiz() {
   const [gameStarted, setGameStarted] = useState(false);
@@ -98,7 +107,7 @@ function Quiz() {
   };
 
   /* PASTE THIS INSTEAD */
-  const totalScenarios = 14;
+  const totalScenarios = 10;
 
   // Find the current logged-in user in your array
   const currentUser = usersData.find((u) => u.email === userInfo.email);
@@ -129,7 +138,7 @@ function Quiz() {
           <div className="stat-label">Scenario</div>
           <div className="stat-value">
             <div className="stat-value">
-              {hasConsented ? currentTask : 0}/{totalScenarios}
+              {Math.min(hasConsented ? currentTask : 0, 10)} / {totalScenarios}
             </div>
           </div>
         </div>
@@ -273,59 +282,63 @@ function Quiz() {
                 )}
 
                 {gameStarted && currentTask === 3 && (
-                  <div className="main-quiz-container">
-                    <h1>Scenario {currentTask}</h1>
-                    <p>Loading next mission...</p>
-                  </div>
+                  <TaskThree
+                    onComplete={(data) => handleTaskComplete(3, data)}
+                    onNext={() => setCurrentTask(4)}
+                  />
                 )}
 
                 {gameStarted && currentTask === 4 && (
-                  <div className="main-quiz-container">
-                    <h1>Scenario {currentTask}</h1>
-                    <p>Loading next mission...</p>
-                  </div>
+                  <TaskFour
+                    onComplete={(data) => handleTaskComplete(4, data)}
+                    onNext={() => setCurrentTask(5)}
+                  />
                 )}
 
                 {gameStarted && currentTask === 5 && (
-                  <div className="main-quiz-container">
-                    <h1>Scenario {currentTask}</h1>
-                    <p>Loading next mission...</p>
-                  </div>
+                  <TaskFive
+                    onComplete={(data) => handleTaskComplete(5, data)}
+                    onNext={() => setCurrentTask(6)}
+                  />
                 )}
 
                 {gameStarted && currentTask === 6 && (
-                  <div className="main-quiz-container">
-                    <h1>Scenario {currentTask}</h1>
-                    <p>Loading next mission...</p>
-                  </div>
+                  <TaskSix
+                    onComplete={(data) => handleTaskComplete(6, data)}
+                    onNext={() => setCurrentTask(7)}
+                  />
                 )}
 
                 {gameStarted && currentTask === 7 && (
-                  <div className="main-quiz-container">
-                    <h1>Scenario {currentTask}</h1>
-                    <p>Loading next mission...</p>
-                  </div>
+                  <TaskSeven
+                    onComplete={(data) => handleTaskComplete(7, data)}
+                    onNext={() => setCurrentTask(8)}
+                  />
                 )}
 
                 {gameStarted && currentTask === 8 && (
-                  <div className="main-quiz-container">
-                    <h1>Scenario {currentTask}</h1>
-                    <p>Loading next mission...</p>
-                  </div>
+                  <TaskEight
+                    onComplete={(data) => handleTaskComplete(8, data)}
+                    onNext={() => setCurrentTask(9)}
+                  />
                 )}
 
                 {gameStarted && currentTask === 9 && (
-                  <div className="main-quiz-container">
-                    <h1>Scenario {currentTask}</h1>
-                    <p>Loading next mission...</p>
-                  </div>
+                  <TaskNine
+                    onComplete={(data) => handleTaskComplete(9, data)}
+                    onNext={() => setCurrentTask(10)}
+                  />
                 )}
 
                 {gameStarted && currentTask === 10 && (
-                  <div className="main-quiz-container">
-                    <h1>Scenario {currentTask}</h1>
-                    <p>Loading next mission...</p>
-                  </div>
+                  <TaskTen
+                    onComplete={(data) => handleTaskComplete(10, data)}
+                    onNext={() => setCurrentTask(11)}
+                  />
+                )}
+
+                {gameStarted && currentTask === 11 && (
+                  <UserDashboard data={usersData[0]} />
                 )}
               </>
             )}
