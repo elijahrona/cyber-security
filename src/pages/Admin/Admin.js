@@ -15,7 +15,7 @@ function Admin() {
     fetch(process.env.REACT_APP_AXIOS_FETCH_URL)
       .then((response) => response.json())
       .then((json) => {
-        setData(json);
+        setData(json.data || []);
       })
       .catch((error) => console.error("Error:", error));
   }, []);
