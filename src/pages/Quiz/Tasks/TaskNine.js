@@ -61,7 +61,7 @@ function TaskNine({ onComplete, onNext }) {
   return (
     <div className="task-content">
       <h2 style={{ color: "#22d3ee", marginBottom: "10px" }}>
-        📱 Scenario 9: The Push Notification Storm
+        📱 Scenario 9: Notification Spam Attack
       </h2>
 
       <div
@@ -74,20 +74,20 @@ function TaskNine({ onComplete, onNext }) {
         <p
           style={{
             color: "#e2e8f0",
-            fontSize: "1.1rem",
+            fontSize: "1.2rem",
             fontWeight: "500",
             marginBottom: "8px",
           }}
         >
-          Mission: Resist the Fatigue
+          Mission: Don’t fall for the spam trick.
         </p>
-        <p style={{ color: "#94a3b8", fontSize: "0.95rem", lineHeight: "1.5" }}>
-          Your phone is exploding with login requests, but{" "}
-          <strong>you aren't trying to log in.</strong>
-          The hacker has your password and is trying to annoy you into clicking
-          "Approve." What is the correct protocol?
+        <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
+          Your phone keeps getting login approval requests, but you didn’t try
+          to log in. A hacker is hoping you’ll press “Approve” by mistake.
         </p>
       </div>
+
+      <p>Simple Rule: If you didn’t log in, NEVER press approve.</p>
 
       <div
         style={{

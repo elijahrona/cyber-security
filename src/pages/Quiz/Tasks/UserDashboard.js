@@ -14,7 +14,9 @@ import {
 
 const UserDashboard = ({ data }) => {
   const navigate = useNavigate();
-  const quizzes = data?.quizzes || [];
+
+  // FIX: Stable reference for quizzes to prevent unnecessary metric recalculations
+  const quizzes = useMemo(() => data?.quizzes || [], [data?.quizzes]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -28,7 +30,7 @@ const UserDashboard = ({ data }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          // Wrapping 'data' in an object so the backend can destructure it
+          // Send the specific user object (containing the participant code)
           body: JSON.stringify({ data: [data] }),
         });
 
@@ -36,30 +38,35 @@ const UserDashboard = ({ data }) => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
       } catch (error) {
-        if (error.name === "AbortError") {
-          console.log("Post aborted");
-        } else {
-          console.error("Error:", error);
+        if (error.name !== "AbortError") {
+          console.error("Transmission Error:", error);
         }
       }
     };
 
-    // Only fire the request if 'data' actually exists
     if (data) {
       postData();
     }
 
     return () => controller.abort();
-  }, [data]); // Add 'data' here if you want it to sync whenever the prop changes
+  }, [data]);
 
   // Logic: Calculate Advanced Metrics
   const metrics = useMemo(() => {
+    if (quizzes.length === 0)
+      return {
+        avgScore: 0,
+        avgRisk: 0,
+        totalTime: 0,
+        verdict: "No Data",
+        color: "#94a3b8",
+      };
+
     const avgScore =
       quizzes.reduce((acc, q) => acc + q.score, 0) / quizzes.length;
     const avgRisk =
       quizzes.reduce((acc, q) => acc + q.risk, 0) / quizzes.length;
     const totalTime = quizzes.reduce((acc, q) => acc + q.time, 0);
-    const accuracy = avgScore; // Simplify for now
 
     let verdict = "";
     let color = "";
@@ -74,11 +81,11 @@ const UserDashboard = ({ data }) => {
       color = "#22d3ee";
     } else {
       verdict =
-        "HIGH RISK: Your digital footprint is exposed. Immediate re-training on security protocols is advised.";
+        "HIGH RISK: Your digital footprint is exposed. Immediate re-training is advised.";
       color = "#fb7185";
     }
 
-    return { avgScore, avgRisk, totalTime, accuracy, verdict, color };
+    return { avgScore, avgRisk, totalTime, verdict, color };
   }, [quizzes]);
 
   return (
@@ -88,6 +95,7 @@ const UserDashboard = ({ data }) => {
         color: "#f8fafc",
         minHeight: "100vh",
         padding: "40px 20px",
+        fontFamily: "Inter, system-ui, sans-serif",
       }}
     >
       {/* Header Section */}
@@ -102,8 +110,18 @@ const UserDashboard = ({ data }) => {
           Security Performance Profile
         </h1>
         <p style={{ color: "#94a3b8" }}>
-          Agent: <span style={{ color: "#f8fafc" }}>{data.email}</span> | System
-          Integrity: {metrics.avgScore.toFixed(1)}%
+          {/* UPDATED: Reference data.code instead of email */}
+          Agent ID:{" "}
+          <span
+            style={{
+              color: "#f8fafc",
+              fontWeight: "bold",
+              fontFamily: "monospace",
+            }}
+          >
+            {data?.code || "Unknown"}
+          </span>{" "}
+          | System Integrity: {metrics.avgScore.toFixed(1)}%
         </p>
       </header>
 
@@ -174,7 +192,7 @@ const UserDashboard = ({ data }) => {
         ))}
       </div>
 
-      {/* Visual Data Section */}
+      {/* Visual Data Charts */}
       <div
         style={{
           display: "grid",
@@ -183,7 +201,6 @@ const UserDashboard = ({ data }) => {
           marginBottom: "40px",
         }}
       >
-        {/* Score Trend Chart */}
         <div
           style={{
             background: "rgba(15, 23, 42, 0.8)",
@@ -192,13 +209,7 @@ const UserDashboard = ({ data }) => {
             border: "1px solid rgba(255,255,255,0.05)",
           }}
         >
-          <h3
-            style={{
-              marginBottom: "20px",
-              fontSize: "1.1rem",
-              color: "#22d3ee",
-            }}
-          >
+          <h3 style={{ marginBottom: "20px", color: "#22d3ee" }}>
             Scenario Score Analysis
           </h3>
           <ResponsiveContainer width="100%" height={250}>
@@ -218,7 +229,6 @@ const UserDashboard = ({ data }) => {
           </ResponsiveContainer>
         </div>
 
-        {/* Time Distribution */}
         <div
           style={{
             background: "rgba(15, 23, 42, 0.8)",
@@ -227,13 +237,7 @@ const UserDashboard = ({ data }) => {
             border: "1px solid rgba(255,255,255,0.05)",
           }}
         >
-          <h3
-            style={{
-              marginBottom: "20px",
-              fontSize: "1.1rem",
-              color: "#a855f7",
-            }}
-          >
+          <h3 style={{ marginBottom: "20px", color: "#a855f7" }}>
             Decision Speed (Seconds)
           </h3>
           <ResponsiveContainer width="100%" height={250}>
@@ -268,7 +272,6 @@ const UserDashboard = ({ data }) => {
           textAlign: "center",
           border: `2px solid ${metrics.color}`,
           marginBottom: "60px",
-          boxShadow: `0 0 20px ${metrics.color}22`,
         }}
       >
         <h2
@@ -299,7 +302,6 @@ const UserDashboard = ({ data }) => {
           style={{
             width: "100%",
             borderCollapse: "collapse",
-            textAlign: "left",
             background: "rgba(15, 23, 42, 0.5)",
             borderRadius: "12px",
           }}
@@ -358,7 +360,7 @@ const UserDashboard = ({ data }) => {
         </table>
       </div>
 
-      {/* Footer Navigation */}
+      {/* Return Button */}
       <footer
         style={{
           marginTop: "60px",
@@ -377,16 +379,8 @@ const UserDashboard = ({ data }) => {
             cursor: "pointer",
             transition: "all 0.3s",
           }}
-          onMouseOver={(e) => {
-            e.target.style.background = "#334155";
-            e.target.style.color = "#fff";
-          }}
-          onMouseOut={(e) => {
-            e.target.style.background = "transparent";
-            e.target.style.color = "#94a3b8";
-          }}
         >
-          ← Go Home
+          ← Return to Command Home
         </button>
       </footer>
     </div>

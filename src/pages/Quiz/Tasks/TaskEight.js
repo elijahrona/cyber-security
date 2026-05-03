@@ -78,14 +78,14 @@ function TaskEight({ onComplete, onNext }) {
         <p
           style={{
             color: "#e2e8f0",
-            fontSize: "1.1rem",
+            fontSize: "1.2rem",
             fontWeight: "500",
             marginBottom: "8px",
           }}
         >
           Mission: Secure Your Station
         </p>
-        <p style={{ color: "#94a3b8", fontSize: "0.95rem", lineHeight: "1.5" }}>
+        <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
           You're heading to the breakroom for a coffee.{" "}
           <strong>A suspicious person is walking toward your desk!</strong>
           You must lock your screen before they arrive to protect company data.

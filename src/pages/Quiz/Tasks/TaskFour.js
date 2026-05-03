@@ -7,10 +7,9 @@ function TaskFour({ onComplete, onNext }) {
   const [metrics, setMetrics] = useState({ score: 0, risk: 0, time: 0 });
 
   const missionBrief = [
-    "Identify 'Pretexting' (fake stories)",
-    "Spot 'Sense of Urgency' tactics",
-    "Redact sensitive data leaks",
-    "Stop the information harvest",
+    "Fake story (“I’m from IT”)",
+    "Urgent pressure (“do it now!”)",
+    "Asking for private info (username, codes, hardware, etc.)",
   ];
 
   // The conversation transcript
@@ -95,7 +94,7 @@ function TaskFour({ onComplete, onNext }) {
   return (
     <div className="task-content">
       <h2 style={{ color: "#22d3ee", marginBottom: "10px" }}>
-        🎭 Scenario 4: Social Engineering Intercept
+        🎭 Scenario 4: Stop the Fake IT Call
       </h2>
 
       <div
@@ -108,20 +107,24 @@ function TaskFour({ onComplete, onNext }) {
         <p
           style={{
             color: "#e2e8f0",
-            fontSize: "1.1rem",
+            fontSize: "1.2rem",
             fontWeight: "500",
             marginBottom: "8px",
           }}
         >
-          Mission: Redact the Leak
+          Mission: Don’t let the scammer get your info.
         </p>
-        <p style={{ color: "#94a3b8", fontSize: "0.95rem", lineHeight: "1.5" }}>
-          A social engineer is "pretexting"—pretending to be from IT to steal
-          data. Read the chat below and{" "}
+        <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
+          Someone is pretending to be IT to trick you into giving private
+          details. Read the chat below and{" "}
           <strong>click on the Employee's responses</strong> that contain
           sensitive info to redact them before the caller sees them!
         </p>
       </div>
+
+      <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
+        What to watch for:
+      </p>
 
       <div
         style={{
@@ -170,11 +173,15 @@ function TaskFour({ onComplete, onNext }) {
             fontWeight: "500",
           }}
         >
-          ⚠️ <span style={{ textDecoration: "underline" }}>Action:</span>{" "}
-          <strong>☝️Click your risky messages</strong> to redact them before the
-          hacker can use them.
+          ⚠️ <span style={{ textDecoration: "underline" }}>Action:</span> Hide{" "}
+          <strong>(click to hide)</strong> any message where you shared
+          sensitive info like Username, Passwords or codes, and Device details
         </p>
       </div>
+
+      <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
+        Simple Rule: Real IT will NEVER ask for your password or codes.
+      </p>
 
       {/* Chat Interface */}
       <div

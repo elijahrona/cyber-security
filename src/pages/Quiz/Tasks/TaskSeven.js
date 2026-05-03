@@ -7,10 +7,10 @@ function TaskSeven({ onComplete, onNext }) {
   const [metrics, setMetrics] = useState({ score: 0, risk: 0, time: 0 });
 
   const safetyMarkers = [
-    "HTTPS (Green Lock)",
-    "Correct Domain Spelling",
-    "No Double Extensions",
-    "Trusted Top-Level Domains (.com, .gov)",
+    "Does it start with https (secure)?",
+    "Is the name spelled correctly?",
+    "No weird endings (like “.zip”)",
+    "Looks like a real, trusted site",
   ];
 
   const websites = [
@@ -78,7 +78,7 @@ function TaskSeven({ onComplete, onNext }) {
   return (
     <div className="task-content">
       <h2 style={{ color: "#22d3ee", marginBottom: "10px" }}>
-        🌐 Scenario 7: The URL Inspector
+        🌐 Scenario 7: Spot the Fake Website
       </h2>
 
       <div
@@ -91,19 +91,19 @@ function TaskSeven({ onComplete, onNext }) {
         <p
           style={{
             color: "#e2e8f0",
-            fontSize: "1.1rem",
+            fontSize: "1.2rem",
             fontWeight: "500",
             marginBottom: "8px",
           }}
         >
-          Mission: Validate the Web
+          Mission: Tell which websites are safe or fake.
         </p>
-        <p style={{ color: "#94a3b8", fontSize: "0.95rem", lineHeight: "1.5" }}>
-          Hackers create "look-alike" websites to steal your credentials. Your
-          job is to inspect the <strong>Address Bar</strong> and decide if the
-          site is a safe destination or a trap.
+        <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
+          Hackers make fake websites that look real to steal your login details.
         </p>
       </div>
+
+      <p>What to check:</p>
 
       <div
         style={{
@@ -152,10 +152,9 @@ function TaskSeven({ onComplete, onNext }) {
             fontWeight: "500",
           }}
         >
-          🛑 <strong>How to Play:</strong> Look closely at the spelling and the
-          protocol (HTTP vs HTTPS).
-          <strong>Pass</strong> the legitimate sites and <strong>Block</strong>{" "}
-          the imposters!
+          🛑 <strong>Your Job:</strong> Look closely at the websites.
+          <strong> Pass</strong> the safe sites and <strong>Block</strong> the
+          fake or suspicious ones.
         </p>
       </div>
 

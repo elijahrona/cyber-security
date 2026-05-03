@@ -9,17 +9,11 @@ function Home() {
     <div className="home-container">
       <div className="hero-section">
         <span className="badge">🛡️ Level Up Your Defense</span>
-        <h1>
-          Cyber Security <br />
-          <span style={{ color: "#22d3ee" }} role="img" aria-label="joystick">
-            🎮
-          </span>{" "}
-          Gamified
-        </h1>
+        <h1>Cybersafe Office</h1>
 
         <p className="description">
-          Stop reading dry manuals. Step into real-world scenarios, defeat
-          hackers in our interactive games, and get
+          Step into real-world scenarios, defeat hackers in our interactive
+          games, and get
           <strong> real-time feedback</strong> on your score. Learning is faster
           when it's fun.
         </p>
@@ -32,7 +26,7 @@ function Home() {
           onClick={() => navigate("/quiz")}
         >
           <div className="card-icon">⚡</div>
-          <h2>Take the Quiz</h2>
+          <h2>Challenge</h2>
           <p>
             Test your intuition against scenario-based challenges and earn your
             rank.

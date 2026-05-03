@@ -7,7 +7,12 @@ function TaskTwo({ onComplete, onNext }) {
   const [metrics, setMetrics] = useState({ score: 0, risk: 0, time: 0 });
 
   const forbiddenWords = ["password", "123456", "admin", "qwerty", "welcome"];
-  const powerUps = ["@!", "#$", "789", "Uppercase", "Length > 10"];
+  const powerUps = [
+    "Mix of UPPERCASE & lowercase",
+    "Include numbers",
+    "Add symbols (! @ # $)",
+    "Make it long (10+ characters)",
+  ];
 
   const calculateStrength = (pwd) => {
     let score = 0;
@@ -53,7 +58,7 @@ function TaskTwo({ onComplete, onNext }) {
   return (
     <div className="task-content">
       <h2 style={{ color: "#22d3ee", marginBottom: "10px" }}>
-        🛡️ Scenario 2: Fortress Password
+        🛡️ Scenario 2: Create a Strong Password
       </h2>
 
       <div
@@ -66,19 +71,22 @@ function TaskTwo({ onComplete, onNext }) {
         <p
           style={{
             color: "#e2e8f0",
-            fontSize: "1.1rem",
+            fontSize: "1.2rem",
             fontWeight: "500",
             marginBottom: "8px",
           }}
         >
-          Mission: Create an Unbreakable Code
+          Mission: Make a password hackers can’t guess.
         </p>
-        <p style={{ color: "#94a3b8", fontSize: "0.95rem", lineHeight: "1.5" }}>
+        <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
           Hackers use <strong>Brute Force</strong> attacks to guess thousands of
           passwords per second. Your mission is to construct a password that
           would take a supercomputer decades to crack.
         </p>
       </div>
+      <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
+        What makes a strong password?:
+      </p>
 
       {/* Educational Power-ups */}
       <div

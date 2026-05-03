@@ -32,17 +32,17 @@ function Admin() {
     }
   };
 
-  // --- 1. Data Filtering Logic ---
+  // --- 1. Data Filtering Logic (Updated for Participant Codes) ---
   const getProcessedData = () => {
     if (showRetries) return data;
 
-    // Filter for only the first occurrence of each email
     const uniqueParticipants = [];
-    const seenEmails = new Set();
+    const seenCodes = new Set();
 
     data.forEach((user) => {
-      if (!seenEmails.has(user.email)) {
-        seenEmails.add(user.email);
+      // Logic: Use .code as the unique identifier
+      if (!seenCodes.has(user.code)) {
+        seenCodes.add(user.code);
         uniqueParticipants.push(user);
       }
     });
@@ -63,7 +63,6 @@ function Admin() {
     const high = sorted[sorted.length - 1];
     const low = sorted[0];
 
-    // Simplified Median Logic
     const mid = Math.floor(sorted.length / 2);
     const median =
       sorted.length % 2 !== 0
@@ -79,7 +78,7 @@ function Admin() {
 
   const totalParticipants = activeData.length;
   const retryCount = showRetries
-    ? data.length - new Set(data.map((u) => u.email)).size
+    ? data.length - new Set(data.map((u) => u.code)).size
     : 0;
 
   // --- Helper: Get Rating Logic ---
@@ -136,23 +135,19 @@ function Admin() {
   const scenarioData = getScenarioData();
 
   const downloadCSV = () => {
-    // 1. Define the headers
     const headers = [
       "Submitted At",
-      "Name",
-      "Email",
+      "Participant Code", // Replaced Email/Name
       "Task",
       "Score (%)",
       "Risk (%)",
       "Time (s)",
     ];
 
-    // 2. Flatten the data: Create a row for every quiz entry
     const rows = activeData.flatMap((user) =>
       user.quizzes.map((q) => [
         q.submittedAt,
-        user.name,
-        user.email,
+        user.code, // Participant Code
         `Scenario ${q.task}`,
         q.score,
         q.risk,
@@ -160,13 +155,11 @@ function Admin() {
       ]),
     );
 
-    // 3. Convert to CSV string
     const csvContent = [
       headers.join(","),
       ...rows.map((e) => e.join(",")),
     ].join("\n");
 
-    // 4. Trigger Download
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -181,7 +174,6 @@ function Admin() {
     document.body.removeChild(link);
   };
 
-  // 1. Password Entry Screen
   if (!isAuthenticated) {
     return (
       <div className="admin-wrapper">
@@ -189,7 +181,6 @@ function Admin() {
           <div className="lock-icon">🔐</div>
           <h2>Admin Access</h2>
           <p>Please enter the security key to view stats.</p>
-
           <form onSubmit={handleLogin}>
             <input
               type="password"
@@ -198,18 +189,13 @@ function Admin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-
             {error && (
-              <div className="error-message">
-                ❌ Incorrect Password. Please try again.
-              </div>
+              <div className="error-message">❌ Incorrect Password.</div>
             )}
-
             <button type="submit" className="btn-primary">
               Verify Identity
             </button>
           </form>
-
           <button
             className="btn-secondary"
             style={{ background: "none", border: "none", cursor: "pointer" }}
@@ -222,11 +208,9 @@ function Admin() {
     );
   }
 
-  // 2. The Real Admin Content (Correct Password)
   return (
     <div className="admin-wrapper" style={{ padding: "40px", color: "white" }}>
       <div style={{ maxWidth: "1200px", width: "100%", margin: "0 auto" }}>
-        {/* Toggle Section */}
         <div
           style={{
             display: "flex",
@@ -244,11 +228,8 @@ function Admin() {
               Command Center Dashboard
             </h3>
             <p style={{ margin: 0, fontSize: "0.85rem", color: "#64748b" }}>
-              Metrics are currently calculated using{" "}
-              {showRetries
-                ? "all session attempts"
-                : "initial participant entries only"}
-              .
+              Tracking{" "}
+              {showRetries ? "all sessions" : "unique participant codes"}.
             </p>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -261,16 +242,14 @@ function Admin() {
             />
           </div>
         </div>
-        {/* Dashboard Cards Grid */}
+
         <div className="dashboard-grid">
-          {/* Participants Card */}
           <div className="admin-card">
-            <h4 className="card-title">Participants</h4>
+            <h4 className="card-title">Unique Agents</h4>
             <div className="card-main-val">{totalParticipants}</div>
-            <div className="card-sub-val">Retries Detected: {retryCount}</div>
+            <div className="card-sub-val">Duplicate Attempts: {retryCount}</div>
           </div>
 
-          {/* Metric Tables */}
           {[
             {
               label: "Score Performance (%)",
@@ -294,26 +273,26 @@ function Admin() {
               </h4>
               <div className="stats-row">
                 <div>
-                  <span>Average</span>
+                  <span>Avg</span>
                   <strong>{block.stats.avg}</strong>
                 </div>
                 <div>
-                  <span>Median</span>
+                  <span>Med</span>
                   <strong>{block.stats.median}</strong>
                 </div>
                 <div>
-                  <span>Highest</span>
+                  <span>High</span>
                   <strong>{block.stats.high}</strong>
                 </div>
                 <div>
-                  <span>Lowest</span>
+                  <span>Low</span>
                   <strong>{block.stats.low}</strong>
                 </div>
               </div>
             </div>
           ))}
         </div>
-        {/* --- View Slider (Segmented Control) --- */}
+
         <div className="view-slider-container">
           <div className="slider-track">
             <div
@@ -333,18 +312,17 @@ function Admin() {
             </button>
           </div>
         </div>
-        {/* --- Data Table --- */}
+
         <div className="table-container">
           <table className="admin-table">
             <thead>
               {viewMode === "participants" ? (
                 <tr>
-                  <th>Participant</th>
+                  <th>Participant Code</th>
                   <th>Retries</th>
                   <th>Avg. Score</th>
                   <th>Avg. Risk</th>
                   <th>Avg. Time</th>
-                  <th>Total Time</th>
                   <th>Rating</th>
                 </tr>
               ) : (
@@ -353,7 +331,6 @@ function Admin() {
                   <th>Avg. Score</th>
                   <th>Avg. Risk</th>
                   <th>Avg. Time</th>
-                  <th>Total Time</th>
                   <th>Status</th>
                 </tr>
               )}
@@ -361,34 +338,27 @@ function Admin() {
             <tbody>
               {viewMode === "participants"
                 ? activeData.map((user, idx) => {
-                    const scores = user.quizzes.map((q) => q.score);
-
-                    // FIXED: Point specifically to q.time inside the reduce
                     const totalT = user.quizzes.reduce(
                       (acc, q) => acc + q.time,
                       0,
                     );
-
                     const avgS = Math.round(
-                      scores.reduce((a, b) => a + b, 0) / scores.length,
+                      user.quizzes.reduce((a, b) => a + b.score, 0) /
+                        user.quizzes.length,
                     );
-                    const avgT = Math.round(totalT / user.quizzes.length);
-
                     const rating = getRating(avgS, "participants");
 
                     return (
                       <tr key={idx}>
                         <td>
-                          <div className="user-info">
-                            <strong>{user.name}</strong>
-                            <span>{user.email}</span>
-                          </div>
+                          <strong style={{ fontFamily: "monospace" }}>
+                            {user.code}
+                          </strong>
                         </td>
                         <td>{user.quizzes.length - 1}</td>
                         <td>{avgS}%</td>
                         <td>{100 - avgS}%</td>
                         <td>{Math.round(totalT / user.quizzes.length)}s</td>
-                        <td>{totalT}s</td>
                         <td style={{ color: rating.color, fontWeight: "bold" }}>
                           {rating.label}
                         </td>
@@ -403,7 +373,6 @@ function Admin() {
                       <td>{s.avgScore}%</td>
                       <td>{s.avgRisk}%</td>
                       <td>{s.avgTime}s</td>
-                      <td>{s.totalTime}s</td>
                       <td style={{ color: s.rating.color, fontWeight: "bold" }}>
                         {s.rating.label}
                       </td>
@@ -414,40 +383,9 @@ function Admin() {
         </div>
 
         <div className="download-section">
-          <div className="download-header">
-            <button className="btn-primary" onClick={downloadCSV}>
-              📥 Download CSV Data
-            </button>
-            <p className="download-notice">
-              {showRetries
-                ? "⚠️ Notice: You are downloading the FULL dataset including all participant retries."
-                : "✅ Notice: You are downloading the FILTERED dataset (First attempts only)."}
-            </p>
-          </div>
-
-          <div className="field-legend">
-            <h4>Field Definitions</h4>
-            <div className="legend-grid">
-              <div className="legend-item">
-                <strong>Submitted At</strong>
-                <span>Timestamp (YYYY-MM-DD HH:MM:SS) of task completion.</span>
-              </div>
-              <div className="legend-item">
-                <strong>Task</strong>
-                <span>The specific scenario ID (1-14).</span>
-              </div>
-              <div className="legend-item">
-                <strong>Score / Risk</strong>
-                <span>
-                  Performance metrics calculated based on task accuracy.
-                </span>
-              </div>
-              <div className="legend-item">
-                <strong>Time</strong>
-                <span>Duration in seconds taken to submit the scenario.</span>
-              </div>
-            </div>
-          </div>
+          <button className="btn-primary" onClick={downloadCSV}>
+            📥 Export CSV Data
+          </button>
         </div>
       </div>
     </div>

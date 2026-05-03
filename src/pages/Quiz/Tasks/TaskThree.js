@@ -7,10 +7,10 @@ function TaskThree({ onComplete, onNext }) {
   const [metrics, setMetrics] = useState({ score: 0, risk: 0, time: 0 });
 
   const networkRules = [
-    "Block Unnecessary Ports",
-    "Encrypted Traffic Preferred (SSL/TLS)",
-    "Verify Source Origin",
-    "Identify Known Malicious Services",
+    "Is it secure (encrypted)?",
+    "Do you trust the source?",
+    "Is the port/service safe or outdated?",
+    "Does anything look suspicious?",
   ];
 
   const packets = [
@@ -83,7 +83,7 @@ function TaskThree({ onComplete, onNext }) {
   return (
     <div className="task-content">
       <h2 style={{ color: "#22d3ee", marginBottom: "10px" }}>
-        🌐 Scenario 3: Network Perimeter Defense
+        🌐 Scenario 3: Protect Your Network
       </h2>
 
       {/* Mission Briefing */}
@@ -97,21 +97,23 @@ function TaskThree({ onComplete, onNext }) {
         <p
           style={{
             color: "#e2e8f0",
-            fontSize: "1.1rem",
+            fontSize: "1.2rem",
             fontWeight: "500",
             marginBottom: "8px",
           }}
         >
-          Mission: Configure the Firewall
+          Mission: Decide what internet traffic is safe
         </p>
-        <p style={{ color: "#94a3b8", fontSize: "0.95rem", lineHeight: "1.5" }}>
-          You are the Gatekeeper. Malicious actors are attempting to probe your
-          network for <strong>open ports</strong>. Analyze the incoming traffic
-          packets below and decide which to{" "}
-          <span style={{ color: "#4ade80" }}>Allow</span> and which to{" "}
-          <span style={{ color: "#fb7185" }}>Block</span>.
+        <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
+          Hackers are trying to find a way into your network. You must{" "}
+          <span style={{ color: "#4ade80" }}>Allow</span> safe traffic and{" "}
+          <span style={{ color: "#fb7185" }}>Block</span> risky ones.
         </p>
       </div>
+
+      <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
+        What to check:
+      </p>
 
       {/* Network Protocols Guide */}
       <div
@@ -140,6 +142,10 @@ function TaskThree({ onComplete, onNext }) {
           </span>
         ))}
       </div>
+
+      <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
+        If it’s not secure or you don’t trust it, block it.
+      </p>
 
       {/* Packet Inspection Area */}
       <div style={{ marginTop: "30px", display: "grid", gap: "15px" }}>

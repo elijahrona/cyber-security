@@ -16,11 +16,52 @@ function Quiz() {
   const [gameStarted, setGameStarted] = useState(false);
   const [currentTask, setCurrentTask] = useState(1);
   const [hasConsented, setHasConsented] = useState(false);
-  const [userInfo, setUserInfo] = useState({ name: "", email: "" });
-  // This state holds the array of all users and their performance
+
+  // NEW: Store participant code instead of name/email
+  const [participantCode, setParticipantCode] = useState("");
   const [usersData, setUsersData] = useState([]);
-  // Track results of each task: { taskId: { score, risk, time } }
   const [allResults, setAllResults] = useState({});
+
+  // Helper: Generate a unique random code (e.g., AGENT-X92B)
+  const generateCode = () => {
+    return `AGENT-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+  };
+
+  // 1. Initial Logic: Check LocalStorage for existing code
+  useEffect(() => {
+    const savedCode = localStorage.getItem("cyber_infiltration_code");
+    if (savedCode) {
+      setParticipantCode(savedCode);
+    }
+  }, []);
+
+  // Inside your Quiz component...
+
+  useEffect(() => {
+    const savedCode = localStorage.getItem("cyber_infiltration_code");
+
+    if (savedCode) {
+      // We found a returning user
+      setParticipantCode(savedCode);
+    } else if (gameStarted && !hasConsented) {
+      // New user: Silently generate ID and proceed
+      const newCode = generateCode();
+      localStorage.setItem("cyber_infiltration_code", newCode);
+      setParticipantCode(newCode);
+      setHasConsented(true); // Direct entry for new players
+    }
+  }, [gameStarted, hasConsented]);
+
+  const handleIdentityChoice = (choice) => {
+    if (choice === "retry") {
+      setHasConsented(true);
+    } else if (choice === "new") {
+      const newCode = generateCode();
+      localStorage.setItem("cyber_infiltration_code", newCode);
+      setParticipantCode(newCode);
+      setHasConsented(true);
+    }
+  };
 
   // 2. Add the Scroll-to-Top Logic
   useEffect(() => {
@@ -32,24 +73,17 @@ function Quiz() {
   }, [currentTask, gameStarted]);
 
   const taskNames = [
-    "Phishing Defense",
-    "Password Strength",
-    "Network Security",
-    "Social Engineering",
-    "Encryption Basics",
-    "Phishing Defense",
-    "Password Strength",
-    "Network Security",
-    "Social Engineering",
-    "Encryption Basics",
+    "Spot the Fake Emails",
+    "Create a Strong Password",
+    "Protect Your Network",
+    "Stop the Fake IT Call",
+    "Decode the Secret Message",
+    "The USB Trap",
+    "Spot the Fake Website",
+    "The Office Snoop",
+    "Notification Spam Attack",
+    "What to Do After a Hack",
   ];
-
-  const handleInfoSubmit = (e) => {
-    e.preventDefault();
-    if (userInfo.name && userInfo.email) {
-      setHasConsented(true);
-    }
-  };
 
   const showInstructions = () => {
     alert(
@@ -59,28 +93,22 @@ function Quiz() {
 
   // This function runs every time a task is submitted
   const handleTaskComplete = (taskId, taskData) => {
-    // 1. Generate the formatted date
     const now = new Date();
     const formattedDate = now.toISOString().replace("T", " ").split(".")[0];
-    // Result: YYYY-MM-DD HH:MM:SS
 
     const newQuizEntry = {
       task: taskId,
       score: taskData.score,
       risk: taskData.risk,
       time: taskData.time,
-      submittedAt: formattedDate, // Added to the quiz entry
+      submittedAt: formattedDate,
     };
 
-    // 1. Update allResults so the cards update immediately
-    setAllResults((prev) => ({
-      ...prev,
-      [taskId]: taskData,
-    }));
+    setAllResults((prev) => ({ ...prev, [taskId]: taskData }));
 
-    // 2. Update the master usersData array
     setUsersData((prevUsers) => {
-      const userIndex = prevUsers.findIndex((u) => u.email === userInfo.email);
+      // Search by participantCode instead of email
+      const userIndex = prevUsers.findIndex((u) => u.code === participantCode);
       let updatedArray;
 
       if (userIndex > -1) {
@@ -88,15 +116,14 @@ function Quiz() {
         updatedArray[userIndex] = {
           ...updatedArray[userIndex],
           quizzes: [...updatedArray[userIndex].quizzes, newQuizEntry],
-          lastUpdated: formattedDate, // Updates user's overall last activity
+          lastUpdated: formattedDate,
         };
       } else {
         const newUser = {
-          name: userInfo.name,
-          email: userInfo.email,
+          code: participantCode, // Use Code
           quizzes: [newQuizEntry],
-          createdAt: formattedDate, // Added for new users
-          lastUpdated: formattedDate, // Added for new users
+          createdAt: formattedDate,
+          lastUpdated: formattedDate,
         };
         updatedArray = [...prevUsers, newUser];
       }
@@ -108,8 +135,7 @@ function Quiz() {
   const totalScenarios = 10;
 
   // Find the current logged-in user in your array
-  const currentUser = usersData.find((u) => u.email === userInfo.email);
-  // If they exist, get their quizzes; otherwise, use an empty array
+  const currentUser = usersData.find((u) => u.code === participantCode);
   const completedQuizzes = currentUser ? currentUser.quizzes : [];
 
   const avgScore = completedQuizzes.length
@@ -162,7 +188,7 @@ function Quiz() {
             <p>
               You are about to enter a series of tactical simulations. Learn the
               tasks, analyze real-world examples, and solve critical scenarios
-              to keep the network safe.
+              to keep the office network safe.
             </p>
             <div className="quiz-actions">
               <button
@@ -190,75 +216,79 @@ function Quiz() {
         ) : (
           <>
             {/* PHASE 2: Identity Collection & Consent */}
+            {/* NEW PHASE 2: Identity Collection with Logic */}
             {gameStarted && !hasConsented && (
               <div className="onboarding-form">
                 <h2 style={{ color: "#22d3ee", marginBottom: "20px" }}>
-                  Verification Required
+                  Verification System
                 </h2>
-                <p
-                  style={{
-                    color: "#94a3b8",
-                    fontSize: "0.9rem",
-                    marginBottom: "25px",
-                  }}
-                >
-                  To ensure unique session identification and prevent duplicate
-                  entries, please provide your details.
-                </p>
-
-                <form
-                  onSubmit={handleInfoSubmit}
-                  style={{ maxWidth: "400px", margin: "0 auto" }}
-                >
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    className="password-input"
-                    required
-                    value={userInfo.name}
-                    onChange={(e) =>
-                      setUserInfo({ ...userInfo, name: e.target.value })
-                    }
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    className="password-input"
-                    required
-                    value={userInfo.email}
-                    onChange={(e) =>
-                      setUserInfo({ ...userInfo, email: e.target.value })
-                    }
-                  />
-
-                  <div
-                    style={{
-                      background: "rgba(34, 211, 238, 0.05)",
-                      padding: "15px",
-                      borderRadius: "12px",
-                      border: "1px solid rgba(34, 211, 238, 0.1)",
-                      marginBottom: "20px",
-                      textAlign: "left",
-                    }}
-                  >
+                {/* This block ONLY renders if an ID was found in localStorage */}
+                {localStorage.getItem("cyber_infiltration_code") && (
+                  <div style={{ textAlign: "center" }}>
+                    <p style={{ color: "#e2e8f0" }}>
+                      Welcome back, <strong>{participantCode}</strong>.
+                    </p>
                     <p
                       style={{
-                        fontSize: "0.8rem",
-                        color: "#64748b",
-                        margin: 0,
+                        color: "#94a3b8",
+                        fontSize: "0.9rem",
+                        marginBottom: "25px",
                       }}
                     >
-                      🛡️ <strong>Privacy Notice:</strong> Your data is used
-                      strictly for academic research and identification. No
-                      marketing emails will be sent, and no third party has
-                      access to your identity.
+                      We detected a previous session. Do you want to continue as
+                      this agent or start fresh?
                     </p>
-                  </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "15px",
+                        justifyContent: "center",
+                        maxWidth: "500px",
+                        margin: "0 auto",
+                        width: "100%",
+                      }}
+                    >
+                      <button
+                        className="btn-primary"
+                        style={{ flex: 1 }}
+                        onClick={() => handleIdentityChoice("retry")}
+                      >
+                        Resume As {participantCode}
+                      </button>
 
-                  <button type="submit" className="btn-primary">
-                    Begin Simulation
-                  </button>
-                </form>
+                      <button
+                        className="btn-secondary-custom"
+                        style={{
+                          flex: 1,
+                          /* Forcing structural parity with btn-primary */
+                          padding: "12px 20px",
+                          borderRadius: "12px",
+                          cursor: "pointer",
+                          fontWeight: "600",
+                          fontSize: "1rem",
+                          // Cyber-dark aesthetic for the secondary choice
+                          background: "rgba(30, 41, 59, 0.7)",
+                          color: "#e2e8f0",
+                          border: "1px solid #334155",
+                          transition: "all 0.2s ease-in-out",
+                        }}
+                        onMouseOver={(e) => {
+                          e.currentTarget.style.background =
+                            "rgba(51, 65, 85, 1)";
+                          e.currentTarget.style.borderColor = "#475569";
+                        }}
+                        onMouseOut={(e) => {
+                          e.currentTarget.style.background =
+                            "rgba(30, 41, 59, 0.7)";
+                          e.currentTarget.style.borderColor = "#334155";
+                        }}
+                        onClick={() => handleIdentityChoice("new")}
+                      >
+                        New Participant
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 

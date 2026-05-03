@@ -79,7 +79,7 @@ function TaskTen({ onComplete, onNext }) {
   return (
     <div className="task-content">
       <h2 style={{ color: "#22d3ee", marginBottom: "10px" }}>
-        🚨 Scenario 10: The Breach Protocol
+        🚨 Scenario 10: What to Do After a Hack
       </h2>
 
       <div
@@ -92,19 +92,20 @@ function TaskTen({ onComplete, onNext }) {
         <p
           style={{
             color: "#e2e8f0",
-            fontSize: "1.1rem",
+            fontSize: "1.2rem",
             fontWeight: "500",
             marginBottom: "8px",
           }}
         >
-          Final Mission: Sequence the Response
+          Mission: Put the steps in the right order.
         </p>
-        <p style={{ color: "#94a3b8", fontSize: "0.95rem", lineHeight: "1.5" }}>
-          A server has been compromised! Panic causes mistakes. Follow the{" "}
-          <strong>SANS Institute</strong> framework to handle the incident.
-          Click the steps in the <u>correct chronological order</u>.
+        <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
+          A system has been hacked. You need to handle it calmly and in the
+          right order.
         </p>
       </div>
+
+      <p>Simple Rule: Don’t panic — follow the steps in order.</p>
 
       {/* Selection Area */}
       <div

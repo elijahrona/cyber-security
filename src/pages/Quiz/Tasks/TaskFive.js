@@ -9,12 +9,7 @@ function TaskFive({ onComplete, onNext }) {
   const cipherTarget = "TFDSFU";
   const cipherAnswer = "SECRET";
 
-  const encryptionGoals = [
-    "Confidentiality",
-    "Shift Ciphers",
-    "Pattern Recognition",
-    "Cryptanalysis",
-  ];
+  const encryptionGoals = ["B → A", "C → B", "D → C", "Z → Y"];
 
   const handleSubmit = () => {
     const userInput = cipherInput.toUpperCase().trim();
@@ -44,7 +39,7 @@ function TaskFive({ onComplete, onNext }) {
   return (
     <div className="task-content">
       <h2 style={{ color: "#22d3ee", marginBottom: "10px" }}>
-        🔐 Scenario 5: The Encryption Enigma
+        🔐 Scenario 5: Decode the Secret Message
       </h2>
 
       {/* Mission Briefing */}
@@ -58,21 +53,19 @@ function TaskFive({ onComplete, onNext }) {
         <p
           style={{
             color: "#e2e8f0",
-            fontSize: "1.1rem",
+            fontSize: "1.2rem",
             fontWeight: "500",
             marginBottom: "8px",
           }}
         >
-          Mission: Reverse the Shift
+          Mission: Crack the hidden code.
         </p>
-        <p style={{ color: "#94a3b8", fontSize: "0.95rem", lineHeight: "1.5" }}>
-          You've intercepted a transmission from a hacker. It's encrypted using
-          a <strong>Caesar Cipher</strong> with a <strong>Shift of 1</strong>{" "}
-          (meaning A became B, B became C).
+        <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
+          The message is coded by moving each letter forward by 1. To solve it,
+          move each letter back by 1.
           <br />
           <br />
-          Decipher the string below by moving each letter{" "}
-          <strong>backward</strong> by one.
+          Example:
         </p>
       </div>
 
@@ -103,6 +96,10 @@ function TaskFive({ onComplete, onNext }) {
           </span>
         ))}
       </div>
+      <p>
+        Action: Take the secret message and shift every letter back by one step
+        to find the real word.
+      </p>
 
       {/* The Decoder Machine */}
       <div
@@ -117,16 +114,6 @@ function TaskFive({ onComplete, onNext }) {
         }}
       >
         <div style={{ marginBottom: "25px" }}>
-          <span
-            style={{
-              color: "#94a3b8",
-              fontSize: "0.8rem",
-              textTransform: "uppercase",
-              letterSpacing: "2px",
-            }}
-          >
-            Intercepted String
-          </span>
           <h1
             style={{
               color: "#a855f7",
@@ -156,8 +143,7 @@ function TaskFive({ onComplete, onNext }) {
                 margin: "0 0 5px 0",
               }}
             >
-              🔍 <strong>Decoder Guide:</strong> Move 1 step <u>backward</u> in
-              the alphabet.
+              🔍 <strong>Simple Rule:</strong> One step back = real message
             </p>
             <div
               style={{
@@ -225,7 +211,7 @@ function TaskFive({ onComplete, onNext }) {
             style={{
               background: "#a855f7",
               padding: "12px 40px",
-              fontSize: "1.1rem",
+              fontSize: "1.2rem",
             }}
             disabled={cipherInput.length < 1}
           >

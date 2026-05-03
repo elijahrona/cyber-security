@@ -7,10 +7,10 @@ function TaskOne({ onComplete, onNext }) {
   const [metrics, setMetrics] = useState({ score: 0, risk: 0, time: 0 });
 
   const redFlags = [
-    "Urgent Action Required",
-    "Official-looking but slightly off email",
-    "Generic Greetings",
-    "Suspicious Links",
+    "Urgent messages (“act now!”)",
+    "Weird or misspelled email address",
+    "Random links or attachments",
+    "Generic messages",
   ];
 
   const examples = [
@@ -77,7 +77,7 @@ function TaskOne({ onComplete, onNext }) {
   return (
     <div className="task-content">
       <h2 style={{ color: "#22d3ee", marginBottom: "10px" }}>
-        🛡️ Scenario 1: Phishing Awareness
+        🛡️ Scenario 1: Spot the Fake Emails
       </h2>
 
       {/* Mission Briefing Text */}
@@ -91,14 +91,14 @@ function TaskOne({ onComplete, onNext }) {
         <p
           style={{
             color: "#e2e8f0",
-            fontSize: "1.1rem",
+            fontSize: "1.2rem",
             fontWeight: "500",
             marginBottom: "8px",
           }}
         >
-          Mission: Identify the Infiltrator
+          Mission: Find out which emails are scams.
         </p>
-        <p style={{ color: "#94a3b8", fontSize: "0.95rem", lineHeight: "1.5" }}>
+        <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
           Hackers often use <strong>Phishing</strong>—fake emails designed to
           look like they are from trusted sources. Your goal is to inspect the
           sender's address, the tone of the message, and any suspicious links.
@@ -135,6 +135,9 @@ function TaskOne({ onComplete, onNext }) {
           </span>
         ))}
       </div>
+      <p style={{ color: "#94a3b8", fontSize: "1rem", lineHeight: "1.5" }}>
+        Carefully check each email address and content:
+      </p>
 
       {/* Examples Section */}
       <div style={{ marginTop: "30px" }}>
