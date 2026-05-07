@@ -11,16 +11,17 @@ import TaskEight from "./Tasks/TaskEight";
 import TaskNine from "./Tasks/TaskNine";
 import TaskTen from "./Tasks/TaskTen";
 import UserDashboard from "./Tasks/UserDashboard";
+import PreQuizSurvey from "./Tasks/PreQuizSurvey";
+import PostQuizSurvey from "./Tasks/PostQuizSurvey";
 
 function Quiz() {
   const [gameStarted, setGameStarted] = useState(false);
-  const [currentTask, setCurrentTask] = useState(1);
+  const [currentTask, setCurrentTask] = useState(0);
   const [hasConsented, setHasConsented] = useState(false);
 
   // NEW: Store participant code instead of name/email
   const [participantCode, setParticipantCode] = useState("");
   const [usersData, setUsersData] = useState([]);
-  const [allResults, setAllResults] = useState({});
 
   // Helper: Generate a unique random code (e.g., AGENT-X92B)
   const generateCode = () => {
@@ -104,8 +105,6 @@ function Quiz() {
       submittedAt: formattedDate,
     };
 
-    setAllResults((prev) => ({ ...prev, [taskId]: taskData }));
-
     setUsersData((prevUsers) => {
       // Search by participantCode instead of email
       const userIndex = prevUsers.findIndex((u) => u.code === participantCode);
@@ -153,6 +152,31 @@ function Quiz() {
     : 0;
 
   const totalTime = completedQuizzes.reduce((acc, curr) => acc + curr.time, 0);
+
+  // 2. New helper to save survey data into the user object
+  const handleSurveyComplete = (type, surveyData) => {
+    setUsersData(prev => {
+      const userIndex = prev.findIndex(u => u.code === participantCode);
+      const updated = [...prev];
+      if (userIndex > -1) {
+        updated[userIndex] = {
+          ...updated[userIndex],
+          [type]: surveyData, // 'preSurvey' or 'postSurvey'
+          lastUpdated: new Date().toISOString().replace("T", " ").split(".")[0]
+        };
+      } else {
+        // Fallback if user object doesn't exist yet
+        updated.push({
+          code: participantCode,
+          [type]: surveyData,
+          quizzes: [],
+          createdAt: new Date().toISOString().replace("T", " ").split(".")[0]
+        });
+      }
+      return updated;
+    });
+    setCurrentTask(prev => prev + 1);
+  };
 
   return (
     <div className="quiz-wrapper">
@@ -294,82 +318,98 @@ function Quiz() {
 
             {/* PHASE 3: The Quizzes */}
             {gameStarted && hasConsented && (
-              <>
-                {gameStarted && currentTask === 1 && (
-                  <TaskOne
-                    onComplete={(data) => handleTaskComplete(1, data)}
-                    onNext={() => setCurrentTask(2)}
-                  />
-                )}
+  <>
+    {/* STEP 0: PRE-QUIZ SURVEY */}
+    {currentTask === 0 && (
+      <PreQuizSurvey 
+        onComplete={(data) => handleSurveyComplete("preSurvey", data)} 
+      />
+    )}
 
-                {gameStarted && currentTask === 2 && (
-                  <TaskTwo
-                    onComplete={(data) => handleTaskComplete(2, data)}
-                    onNext={() => setCurrentTask(3)}
-                  />
-                )}
+    {/* STEPS 1 - 10: THE MISSIONS */}
+    {currentTask === 1 && (
+      <TaskOne
+        onComplete={(data) => handleTaskComplete(1, data)}
+        onNext={() => setCurrentTask(2)}
+      />
+    )}
 
-                {gameStarted && currentTask === 3 && (
-                  <TaskThree
-                    onComplete={(data) => handleTaskComplete(3, data)}
-                    onNext={() => setCurrentTask(4)}
-                  />
-                )}
+    {currentTask === 2 && (
+      <TaskTwo
+        onComplete={(data) => handleTaskComplete(2, data)}
+        onNext={() => setCurrentTask(3)}
+      />
+    )}
 
-                {gameStarted && currentTask === 4 && (
-                  <TaskFour
-                    onComplete={(data) => handleTaskComplete(4, data)}
-                    onNext={() => setCurrentTask(5)}
-                  />
-                )}
+    {currentTask === 3 && (
+      <TaskThree
+        onComplete={(data) => handleTaskComplete(3, data)}
+        onNext={() => setCurrentTask(4)}
+      />
+    )}
 
-                {gameStarted && currentTask === 5 && (
-                  <TaskFive
-                    onComplete={(data) => handleTaskComplete(5, data)}
-                    onNext={() => setCurrentTask(6)}
-                  />
-                )}
+    {currentTask === 4 && (
+      <TaskFour
+        onComplete={(data) => handleTaskComplete(4, data)}
+        onNext={() => setCurrentTask(5)}
+      />
+    )}
 
-                {gameStarted && currentTask === 6 && (
-                  <TaskSix
-                    onComplete={(data) => handleTaskComplete(6, data)}
-                    onNext={() => setCurrentTask(7)}
-                  />
-                )}
+    {currentTask === 5 && (
+      <TaskFive
+        onComplete={(data) => handleTaskComplete(5, data)}
+        onNext={() => setCurrentTask(6)}
+      />
+    )}
 
-                {gameStarted && currentTask === 7 && (
-                  <TaskSeven
-                    onComplete={(data) => handleTaskComplete(7, data)}
-                    onNext={() => setCurrentTask(8)}
-                  />
-                )}
+    {currentTask === 6 && (
+      <TaskSix
+        onComplete={(data) => handleTaskComplete(6, data)}
+        onNext={() => setCurrentTask(7)}
+      />
+    )}
 
-                {gameStarted && currentTask === 8 && (
-                  <TaskEight
-                    onComplete={(data) => handleTaskComplete(8, data)}
-                    onNext={() => setCurrentTask(9)}
-                  />
-                )}
+    {currentTask === 7 && (
+      <TaskSeven
+        onComplete={(data) => handleTaskComplete(7, data)}
+        onNext={() => setCurrentTask(8)}
+      />
+    )}
 
-                {gameStarted && currentTask === 9 && (
-                  <TaskNine
-                    onComplete={(data) => handleTaskComplete(9, data)}
-                    onNext={() => setCurrentTask(10)}
-                  />
-                )}
+    {currentTask === 8 && (
+      <TaskEight
+        onComplete={(data) => handleTaskComplete(8, data)}
+        onNext={() => setCurrentTask(9)}
+      />
+    )}
 
-                {gameStarted && currentTask === 10 && (
-                  <TaskTen
-                    onComplete={(data) => handleTaskComplete(10, data)}
-                    onNext={() => setCurrentTask(11)}
-                  />
-                )}
+    {currentTask === 9 && (
+      <TaskNine
+        onComplete={(data) => handleTaskComplete(9, data)}
+        onNext={() => setCurrentTask(10)}
+      />
+    )}
 
-                {gameStarted && currentTask === 11 && (
-                  <UserDashboard data={usersData[0]} />
-                )}
-              </>
-            )}
+    {currentTask === 10 && (
+      <TaskTen
+        onComplete={(data) => handleTaskComplete(10, data)}
+        onNext={() => setCurrentTask(11)} // Moves to Post-Survey
+      />
+    )}
+
+    {/* STEP 11: POST-QUIZ SURVEY */}
+    {currentTask === 11 && (
+      <PostQuizSurvey 
+        onComplete={(data) => handleSurveyComplete("postSurvey", data)} 
+      />
+    )}
+
+    {/* STEP 12: FINAL DASHBOARD */}
+    {currentTask === 12 && (
+      <UserDashboard data={usersData.find(u => u.code === participantCode)} />
+    )}
+  </>
+)}
           </>
         )}
       </div>
