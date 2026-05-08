@@ -22,6 +22,7 @@ function Quiz() {
   // NEW: Store participant code instead of name/email
   const [participantCode, setParticipantCode] = useState("");
   const [usersData, setUsersData] = useState([]);
+  const [agentName, setAgentName] = useState("");
 
   // Helper: Generate a unique random code (e.g., AGENT-X92B)
   const generateCode = () => {
@@ -119,6 +120,7 @@ function Quiz() {
         };
       } else {
         const newUser = {
+          name: agentName || "Agent", // Fallback to "Unknown Agent" if name is empty
           code: participantCode, // Use Code
           quizzes: [newQuizEntry],
           createdAt: formattedDate,
@@ -155,14 +157,14 @@ function Quiz() {
 
   // 2. New helper to save survey data into the user object
   const handleSurveyComplete = (type, surveyData) => {
-    setUsersData(prev => {
-      const userIndex = prev.findIndex(u => u.code === participantCode);
+    setUsersData((prev) => {
+      const userIndex = prev.findIndex((u) => u.code === participantCode);
       const updated = [...prev];
       if (userIndex > -1) {
         updated[userIndex] = {
           ...updated[userIndex],
           [type]: surveyData, // 'preSurvey' or 'postSurvey'
-          lastUpdated: new Date().toISOString().replace("T", " ").split(".")[0]
+          lastUpdated: new Date().toISOString().replace("T", " ").split(".")[0],
         };
       } else {
         // Fallback if user object doesn't exist yet
@@ -170,12 +172,12 @@ function Quiz() {
           code: participantCode,
           [type]: surveyData,
           quizzes: [],
-          createdAt: new Date().toISOString().replace("T", " ").split(".")[0]
+          createdAt: new Date().toISOString().replace("T", " ").split(".")[0],
         });
       }
       return updated;
     });
-    setCurrentTask(prev => prev + 1);
+    setCurrentTask((prev) => prev + 1);
   };
 
   return (
@@ -214,12 +216,69 @@ function Quiz() {
               tasks, analyze real-world examples, and solve critical scenarios
               to keep the office network safe.
             </p>
+
+            {/* Consent Section */}
+            <div
+              style={{
+                margin: "25px 0",
+                padding: "15px",
+                background: "rgba(255,255,255,0.05)",
+                borderRadius: "12px",
+                border: "1px solid rgba(255,255,255,0.1)",
+              }}
+            >
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "0.8rem",
+                  color: "#94a3b8",
+                  marginBottom: "8px",
+                  textTransform: "uppercase",
+                  letterSpacing: "1px",
+                }}
+              >
+                Field Operator Authorization
+              </label>
+              <input
+                type="text"
+                placeholder="Enter your name to give consent..."
+                value={agentName}
+                onChange={(e) => setAgentName(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  background: "#0f172a",
+                  border: "1px solid #334155",
+                  borderRadius: "8px",
+                  color: "white",
+                  outline: "none",
+                  fontSize: "1rem",
+                }}
+              />
+              <p
+                style={{
+                  fontSize: "0.75rem",
+                  color: "#64748b",
+                  marginTop: "8px",
+                  fontStyle: "italic",
+                }}
+              >
+                * By entering your name, you agree to participate in this
+                security simulation.
+              </p>
+            </div>
+
             <div className="quiz-actions">
               <button
                 className="btn-primary"
+                disabled={!agentName.trim()} // Disabled if name is empty
+                style={{
+                  opacity: !agentName.trim() ? 0.5 : 1,
+                  cursor: !agentName.trim() ? "not-allowed" : "pointer",
+                }}
                 onClick={() => setGameStarted(true)}
               >
-                Start Now
+                Give Consent and Start Quiz
               </button>
               <button
                 className="btn-secondary"
@@ -318,98 +377,104 @@ function Quiz() {
 
             {/* PHASE 3: The Quizzes */}
             {gameStarted && hasConsented && (
-  <>
-    {/* STEP 0: PRE-QUIZ SURVEY */}
-    {currentTask === 0 && (
-      <PreQuizSurvey 
-        onComplete={(data) => handleSurveyComplete("preSurvey", data)} 
-      />
-    )}
+              <>
+                {/* STEP 0: PRE-QUIZ SURVEY */}
+                {currentTask === 0 && (
+                  <PreQuizSurvey
+                    onComplete={(data) =>
+                      handleSurveyComplete("preSurvey", data)
+                    }
+                  />
+                )}
 
-    {/* STEPS 1 - 10: THE MISSIONS */}
-    {currentTask === 1 && (
-      <TaskOne
-        onComplete={(data) => handleTaskComplete(1, data)}
-        onNext={() => setCurrentTask(2)}
-      />
-    )}
+                {/* STEPS 1 - 10: THE MISSIONS */}
+                {currentTask === 1 && (
+                  <TaskOne
+                    onComplete={(data) => handleTaskComplete(1, data)}
+                    onNext={() => setCurrentTask(2)}
+                  />
+                )}
 
-    {currentTask === 2 && (
-      <TaskTwo
-        onComplete={(data) => handleTaskComplete(2, data)}
-        onNext={() => setCurrentTask(3)}
-      />
-    )}
+                {currentTask === 2 && (
+                  <TaskTwo
+                    onComplete={(data) => handleTaskComplete(2, data)}
+                    onNext={() => setCurrentTask(3)}
+                  />
+                )}
 
-    {currentTask === 3 && (
-      <TaskThree
-        onComplete={(data) => handleTaskComplete(3, data)}
-        onNext={() => setCurrentTask(4)}
-      />
-    )}
+                {currentTask === 3 && (
+                  <TaskThree
+                    onComplete={(data) => handleTaskComplete(3, data)}
+                    onNext={() => setCurrentTask(4)}
+                  />
+                )}
 
-    {currentTask === 4 && (
-      <TaskFour
-        onComplete={(data) => handleTaskComplete(4, data)}
-        onNext={() => setCurrentTask(5)}
-      />
-    )}
+                {currentTask === 4 && (
+                  <TaskFour
+                    onComplete={(data) => handleTaskComplete(4, data)}
+                    onNext={() => setCurrentTask(5)}
+                  />
+                )}
 
-    {currentTask === 5 && (
-      <TaskFive
-        onComplete={(data) => handleTaskComplete(5, data)}
-        onNext={() => setCurrentTask(6)}
-      />
-    )}
+                {currentTask === 5 && (
+                  <TaskFive
+                    onComplete={(data) => handleTaskComplete(5, data)}
+                    onNext={() => setCurrentTask(6)}
+                  />
+                )}
 
-    {currentTask === 6 && (
-      <TaskSix
-        onComplete={(data) => handleTaskComplete(6, data)}
-        onNext={() => setCurrentTask(7)}
-      />
-    )}
+                {currentTask === 6 && (
+                  <TaskSix
+                    onComplete={(data) => handleTaskComplete(6, data)}
+                    onNext={() => setCurrentTask(7)}
+                  />
+                )}
 
-    {currentTask === 7 && (
-      <TaskSeven
-        onComplete={(data) => handleTaskComplete(7, data)}
-        onNext={() => setCurrentTask(8)}
-      />
-    )}
+                {currentTask === 7 && (
+                  <TaskSeven
+                    onComplete={(data) => handleTaskComplete(7, data)}
+                    onNext={() => setCurrentTask(8)}
+                  />
+                )}
 
-    {currentTask === 8 && (
-      <TaskEight
-        onComplete={(data) => handleTaskComplete(8, data)}
-        onNext={() => setCurrentTask(9)}
-      />
-    )}
+                {currentTask === 8 && (
+                  <TaskEight
+                    onComplete={(data) => handleTaskComplete(8, data)}
+                    onNext={() => setCurrentTask(9)}
+                  />
+                )}
 
-    {currentTask === 9 && (
-      <TaskNine
-        onComplete={(data) => handleTaskComplete(9, data)}
-        onNext={() => setCurrentTask(10)}
-      />
-    )}
+                {currentTask === 9 && (
+                  <TaskNine
+                    onComplete={(data) => handleTaskComplete(9, data)}
+                    onNext={() => setCurrentTask(10)}
+                  />
+                )}
 
-    {currentTask === 10 && (
-      <TaskTen
-        onComplete={(data) => handleTaskComplete(10, data)}
-        onNext={() => setCurrentTask(11)} // Moves to Post-Survey
-      />
-    )}
+                {currentTask === 10 && (
+                  <TaskTen
+                    onComplete={(data) => handleTaskComplete(10, data)}
+                    onNext={() => setCurrentTask(11)} // Moves to Post-Survey
+                  />
+                )}
 
-    {/* STEP 11: POST-QUIZ SURVEY */}
-    {currentTask === 11 && (
-      <PostQuizSurvey 
-        onComplete={(data) => handleSurveyComplete("postSurvey", data)} 
-      />
-    )}
+                {/* STEP 11: POST-QUIZ SURVEY */}
+                {currentTask === 11 && (
+                  <PostQuizSurvey
+                    onComplete={(data) =>
+                      handleSurveyComplete("postSurvey", data)
+                    }
+                  />
+                )}
 
-    {/* STEP 12: FINAL DASHBOARD */}
-    {currentTask === 12 && (
-      <UserDashboard data={usersData.find(u => u.code === participantCode)} />
-    )}
-  </>
-)}
+                {/* STEP 12: FINAL DASHBOARD */}
+                {currentTask === 12 && (
+                  <UserDashboard
+                    data={usersData.find((u) => u.code === participantCode)}
+                  />
+                )}
+              </>
+            )}
           </>
         )}
       </div>
