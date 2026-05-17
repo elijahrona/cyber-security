@@ -194,6 +194,7 @@ function Quiz() {
           totalScenarios={totalScenarios}
           avgScore={avgScore}
           avgRisk={avgRisk}
+          totalTime={totalTime}
         />
       )}
 
