@@ -1,32 +1,40 @@
 import React, { useState, useEffect } from "react";
 import "./Quiz.css";
-import TaskOne from "./Tasks/TaskOne"; // Ensure path is correct
-import TaskTwo from "./Tasks/TaskTwo";
-import TaskThree from "./Tasks/TaskThree";
-import TaskFour from "./Tasks/TaskFour";
-import TaskFive from "./Tasks/TaskFive";
-import TaskSix from "./Tasks/TaskSix";
-import TaskSeven from "./Tasks/TaskSeven";
-import TaskEight from "./Tasks/TaskEight";
-import TaskNine from "./Tasks/TaskNine";
-import TaskTen from "./Tasks/TaskTen";
-import UserDashboard from "./Tasks/UserDashboard";
-import PreQuizSurvey from "./Tasks/PreQuizSurvey";
-import PostQuizSurvey from "./Tasks/PostQuizSurvey";
+
+// New Child Component Imports
+import StatsGrid from "./Components/StatsGrid";
+import WelcomeScreen from "./Components/WelcomeScreen";
+import VerificationSystem from "./Components/VerificationSystem";
+import TaskManager from "./Components/TaskManager";
 
 function Quiz() {
   const [gameStarted, setGameStarted] = useState(false);
   const [currentTask, setCurrentTask] = useState(0);
   const [hasConsented, setHasConsented] = useState(false);
 
-  // NEW: Store participant code instead of name/email
+  // Store participant code instead of name/email
   const [participantCode, setParticipantCode] = useState("");
   const [usersData, setUsersData] = useState([]);
   const [agentName, setAgentName] = useState("");
 
-  // Helper: Generate a unique random code (e.g., AGENT-X92B)
+  const totalScenarios = 10;
+
+  const taskNames = [
+    "Spot the Fake Emails",
+    "Create a Strong Password",
+    "Protect Your Network",
+    "Stop the Fake IT Call",
+    "Decode the Secret Message",
+    "The USB Trap",
+    "Spot the Fake Website",
+    "The Office Snoop",
+    "Notification Spam Attack",
+    "What to Do After a Hack",
+  ];
+
+  // Helper: Generate a unique random code (e.g., PARTICIPANT-X92B)
   const generateCode = () => {
-    return `AGENT-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+    return `PARTICIPANT-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
   };
 
   // 1. Initial Logic: Check LocalStorage for existing code
@@ -36,8 +44,6 @@ function Quiz() {
       setParticipantCode(savedCode);
     }
   }, []);
-
-  // Inside your Quiz component...
 
   useEffect(() => {
     const savedCode = localStorage.getItem("cyber_infiltration_code");
@@ -70,22 +76,9 @@ function Quiz() {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "smooth", // Use "smooth" for a nice transition or "instant" for speed
+      behavior: "smooth",
     });
   }, [currentTask, gameStarted]);
-
-  const taskNames = [
-    "Spot the Fake Emails",
-    "Create a Strong Password",
-    "Protect Your Network",
-    "Stop the Fake IT Call",
-    "Decode the Secret Message",
-    "The USB Trap",
-    "Spot the Fake Website",
-    "The Office Snoop",
-    "Notification Spam Attack",
-    "What to Do After a Hack",
-  ];
 
   const showInstructions = () => {
     alert(
@@ -107,7 +100,6 @@ function Quiz() {
     };
 
     setUsersData((prevUsers) => {
-      // Search by participantCode instead of email
       const userIndex = prevUsers.findIndex((u) => u.code === participantCode);
       let updatedArray;
 
@@ -120,8 +112,8 @@ function Quiz() {
         };
       } else {
         const newUser = {
-          name: agentName || "Agent", // Fallback to "Unknown Agent" if name is empty
-          code: participantCode, // Use Code
+          name: agentName || "Agent",
+          code: participantCode,
           quizzes: [newQuizEntry],
           createdAt: formattedDate,
           lastUpdated: formattedDate,
@@ -132,11 +124,9 @@ function Quiz() {
     });
   };
 
-  /* PASTE THIS INSTEAD */
-  const totalScenarios = 10;
-
   // Find the current logged-in user in your array
   const currentUser = usersData.find((u) => u.code === participantCode);
+  const learningPath = currentUser ? currentUser.learningPath : null;
   const completedQuizzes = currentUser ? currentUser.quizzes : [];
 
   const avgScore = completedQuizzes.length
@@ -155,325 +145,88 @@ function Quiz() {
 
   const totalTime = completedQuizzes.reduce((acc, curr) => acc + curr.time, 0);
 
-  // 2. New helper to save survey data into the user object
   const handleSurveyComplete = (type, surveyData) => {
+    const formattedDate = new Date()
+      .toISOString()
+      .replace("T", " ")
+      .split(".")[0];
+
+    // Save the survey answers directly to state first
     setUsersData((prev) => {
       const userIndex = prev.findIndex((u) => u.code === participantCode);
       const updated = [...prev];
+
       if (userIndex > -1) {
         updated[userIndex] = {
           ...updated[userIndex],
-          [type]: surveyData, // 'preSurvey' or 'postSurvey'
-          lastUpdated: new Date().toISOString().replace("T", " ").split(".")[0],
+          [type]: surveyData,
+          lastUpdated: formattedDate,
         };
       } else {
-        // Fallback if user object doesn't exist yet
         updated.push({
           code: participantCode,
           [type]: surveyData,
           quizzes: [],
-          createdAt: new Date().toISOString().replace("T", " ").split(".")[0],
+          createdAt: formattedDate,
+          lastUpdated: formattedDate,
         });
       }
       return updated;
     });
-    setCurrentTask((prev) => prev + 1);
+
+    // Clean, deterministic routing rules
+    if (type === "postSurvey") {
+      // Both pathways proceed straight into step 12 to fire their HTTP POST requests
+      setCurrentTask(12);
+    } else {
+      // Divert pre-survey submittals immediately to the Choice Screen (Step 13)
+      setCurrentTask(13);
+    }
   };
 
   return (
     <div className="quiz-wrapper">
       {/* Upper Stats Component */}
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-label">Scenario</div>
-          <div className="stat-value">
-            <div className="stat-value">
-              {Math.min(hasConsented ? currentTask : 0, 10)} / {totalScenarios}
-            </div>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Avg. Score</div>
-          <div className="stat-value">{avgScore}%</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Avg. Risk</div>
-          <div className="stat-value">{avgRisk}%</div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-label">Total Time</div>
-          <div className="stat-value">{totalTime}s</div>
-        </div>
-      </div>
+      {learningPath === "gamified" && (
+        <StatsGrid
+          hasConsented={hasConsented}
+          currentTask={currentTask}
+          totalScenarios={totalScenarios}
+          avgScore={avgScore}
+          avgRisk={avgRisk}
+        />
+      )}
 
       {/* Main Content Area */}
       <div className="main-quiz-container">
         {!gameStarted ? (
-          <>
-            <h1>Cyber Infiltration Defense</h1>
-            <p>
-              You are about to enter a series of tactical simulations. Learn the
-              tasks, analyze real-world examples, and solve critical scenarios
-              to keep the office network safe.
-            </p>
-
-            {/* Consent Section */}
-            <div
-              style={{
-                margin: "25px 0",
-                padding: "15px",
-                background: "rgba(255,255,255,0.05)",
-                borderRadius: "12px",
-                border: "1px solid rgba(255,255,255,0.1)",
-              }}
-            >
-              <label
-                style={{
-                  display: "block",
-                  fontSize: "0.8rem",
-                  color: "#94a3b8",
-                  marginBottom: "8px",
-                  textTransform: "uppercase",
-                  letterSpacing: "1px",
-                }}
-              >
-                Field Operator Authorization
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your name to give consent..."
-                value={agentName}
-                onChange={(e) => setAgentName(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  background: "#0f172a",
-                  border: "1px solid #334155",
-                  borderRadius: "8px",
-                  color: "white",
-                  outline: "none",
-                  fontSize: "1rem",
-                }}
-              />
-              <p
-                style={{
-                  fontSize: "0.75rem",
-                  color: "#64748b",
-                  marginTop: "8px",
-                  fontStyle: "italic",
-                }}
-              >
-                * By entering your name, you agree to participate in this
-                security simulation.
-              </p>
-            </div>
-
-            <div className="quiz-actions">
-              <button
-                className="btn-primary"
-                disabled={!agentName.trim()} // Disabled if name is empty
-                style={{
-                  opacity: !agentName.trim() ? 0.5 : 1,
-                  cursor: !agentName.trim() ? "not-allowed" : "pointer",
-                }}
-                onClick={() => setGameStarted(true)}
-              >
-                Give Consent and Start Quiz
-              </button>
-              <button
-                className="btn-secondary"
-                style={{
-                  border: "1px solid #94a3b8",
-                  padding: "12px 25px",
-                  borderRadius: "12px",
-                  background: "none",
-                  color: "white",
-                  cursor: "pointer",
-                }}
-                onClick={showInstructions}
-              >
-                How to Play
-              </button>
-            </div>
-          </>
+          <WelcomeScreen
+            agentName={agentName}
+            setAgentName={setAgentName}
+            onStart={() => setGameStarted(true)}
+            onShowInstructions={showInstructions}
+          />
         ) : (
           <>
             {/* PHASE 2: Identity Collection & Consent */}
-            {/* NEW PHASE 2: Identity Collection with Logic */}
             {gameStarted && !hasConsented && (
-              <div className="onboarding-form">
-                <h2 style={{ color: "#22d3ee", marginBottom: "20px" }}>
-                  Verification System
-                </h2>
-                {/* This block ONLY renders if an ID was found in localStorage */}
-                {localStorage.getItem("cyber_infiltration_code") && (
-                  <div style={{ textAlign: "center" }}>
-                    <p style={{ color: "#e2e8f0" }}>
-                      Welcome back, <strong>{participantCode}</strong>.
-                    </p>
-                    <p
-                      style={{
-                        color: "#94a3b8",
-                        fontSize: "0.9rem",
-                        marginBottom: "25px",
-                      }}
-                    >
-                      We detected a previous session. Do you want to continue as
-                      this agent or start fresh?
-                    </p>
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "15px",
-                        justifyContent: "center",
-                        maxWidth: "500px",
-                        margin: "0 auto",
-                        width: "100%",
-                      }}
-                    >
-                      <button
-                        className="btn-primary"
-                        style={{ flex: 1 }}
-                        onClick={() => handleIdentityChoice("retry")}
-                      >
-                        Resume As {participantCode}
-                      </button>
-
-                      <button
-                        className="btn-secondary-custom"
-                        style={{
-                          flex: 1,
-                          /* Forcing structural parity with btn-primary */
-                          padding: "12px 20px",
-                          borderRadius: "12px",
-                          cursor: "pointer",
-                          fontWeight: "600",
-                          fontSize: "1rem",
-                          // Cyber-dark aesthetic for the secondary choice
-                          background: "rgba(30, 41, 59, 0.7)",
-                          color: "#e2e8f0",
-                          border: "1px solid #334155",
-                          transition: "all 0.2s ease-in-out",
-                        }}
-                        onMouseOver={(e) => {
-                          e.currentTarget.style.background =
-                            "rgba(51, 65, 85, 1)";
-                          e.currentTarget.style.borderColor = "#475569";
-                        }}
-                        onMouseOut={(e) => {
-                          e.currentTarget.style.background =
-                            "rgba(30, 41, 59, 0.7)";
-                          e.currentTarget.style.borderColor = "#334155";
-                        }}
-                        onClick={() => handleIdentityChoice("new")}
-                      >
-                        New Participant
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <VerificationSystem
+                participantCode={participantCode}
+                onIdentityChoice={handleIdentityChoice}
+              />
             )}
 
-            {/* PHASE 3: The Quizzes */}
+            {/* PHASE 3: The Quizzes & Alternative Pathways */}
             {gameStarted && hasConsented && (
-              <>
-                {/* STEP 0: PRE-QUIZ SURVEY */}
-                {currentTask === 0 && (
-                  <PreQuizSurvey
-                    onComplete={(data) =>
-                      handleSurveyComplete("preSurvey", data)
-                    }
-                  />
-                )}
-
-                {/* STEPS 1 - 10: THE MISSIONS */}
-                {currentTask === 1 && (
-                  <TaskOne
-                    onComplete={(data) => handleTaskComplete(1, data)}
-                    onNext={() => setCurrentTask(2)}
-                  />
-                )}
-
-                {currentTask === 2 && (
-                  <TaskTwo
-                    onComplete={(data) => handleTaskComplete(2, data)}
-                    onNext={() => setCurrentTask(3)}
-                  />
-                )}
-
-                {currentTask === 3 && (
-                  <TaskThree
-                    onComplete={(data) => handleTaskComplete(3, data)}
-                    onNext={() => setCurrentTask(4)}
-                  />
-                )}
-
-                {currentTask === 4 && (
-                  <TaskFour
-                    onComplete={(data) => handleTaskComplete(4, data)}
-                    onNext={() => setCurrentTask(5)}
-                  />
-                )}
-
-                {currentTask === 5 && (
-                  <TaskFive
-                    onComplete={(data) => handleTaskComplete(5, data)}
-                    onNext={() => setCurrentTask(6)}
-                  />
-                )}
-
-                {currentTask === 6 && (
-                  <TaskSix
-                    onComplete={(data) => handleTaskComplete(6, data)}
-                    onNext={() => setCurrentTask(7)}
-                  />
-                )}
-
-                {currentTask === 7 && (
-                  <TaskSeven
-                    onComplete={(data) => handleTaskComplete(7, data)}
-                    onNext={() => setCurrentTask(8)}
-                  />
-                )}
-
-                {currentTask === 8 && (
-                  <TaskEight
-                    onComplete={(data) => handleTaskComplete(8, data)}
-                    onNext={() => setCurrentTask(9)}
-                  />
-                )}
-
-                {currentTask === 9 && (
-                  <TaskNine
-                    onComplete={(data) => handleTaskComplete(9, data)}
-                    onNext={() => setCurrentTask(10)}
-                  />
-                )}
-
-                {currentTask === 10 && (
-                  <TaskTen
-                    onComplete={(data) => handleTaskComplete(10, data)}
-                    onNext={() => setCurrentTask(11)} // Moves to Post-Survey
-                  />
-                )}
-
-                {/* STEP 11: POST-QUIZ SURVEY */}
-                {currentTask === 11 && (
-                  <PostQuizSurvey
-                    onComplete={(data) =>
-                      handleSurveyComplete("postSurvey", data)
-                    }
-                  />
-                )}
-
-                {/* STEP 12: FINAL DASHBOARD */}
-                {currentTask === 12 && (
-                  <UserDashboard
-                    data={usersData.find((u) => u.code === participantCode)}
-                  />
-                )}
-              </>
+              <TaskManager
+                currentTask={currentTask}
+                setCurrentTask={setCurrentTask}
+                handleSurveyComplete={handleSurveyComplete}
+                handleTaskComplete={handleTaskComplete}
+                usersData={usersData}
+                setUsersData={setUsersData} // Added to save selected path seamlessly
+                participantCode={participantCode}
+              />
             )}
           </>
         )}
@@ -484,7 +237,6 @@ function Quiz() {
         {taskNames.map((name, index) => (
           <div
             key={index}
-            /* Compare the index to the currentTask state (adjusted for 0-indexing) */
             className={`task-box ${gameStarted && currentTask === index + 1 ? "active" : ""}`}
           >
             {index + 1}. {name}
