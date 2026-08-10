@@ -1,8 +1,8 @@
 /* Quiz.css */
 .quiz-wrapper {
   min-height: 90vh;
-  background-color: #0f172a;
-  color: white;
+  background-color: #ffffff;
+  color: #111827;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -18,15 +18,16 @@
 }
 
 .stat-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
   padding: 20px;
   border-radius: 16px;
   text-align: center;
 }
 
 .stat-label {
-  color: #94a3b8;
+  color: #475569;
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -43,10 +44,11 @@
 .main-quiz-container {
   background: linear-gradient(
     145deg,
-    rgba(30, 41, 59, 0.4),
-    rgba(15, 23, 42, 0.4)
+    #ffffff,
+    #f8fafc
   );
-  border: 1px solid rgba(34, 211, 238, 0.2);
+  border: 1px solid #bae6fd;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
   border-radius: 24px;
   padding: 60px 40px;
   text-align: center;
@@ -56,13 +58,13 @@
 .main-quiz-container h1 {
   font-size: 2.5rem;
   margin-bottom: 20px;
-  background: linear-gradient(to right, #fff, #22d3ee);
+  background: linear-gradient(to right, #020617, #0e7490);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .main-quiz-container p {
-  color: #94a3b8;
+  color: #475569;
   max-width: 600px;
   margin: 0 auto 40px;
   line-height: 1.6;
@@ -85,25 +87,25 @@
 }
 
 .task-box {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
   padding: 12px 20px;
   border-radius: 12px;
   font-size: 0.85rem;
-  color: #64748b;
+  color: #475569;
   transition: all 0.3s ease;
 }
 
 .task-box.active {
   border-color: #22d3ee;
-  color: #fff;
+  color: #111827;
   background: rgba(34, 211, 238, 0.1);
 }
 
 /* Specific Task One Styling */
 .email-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 15px;
   margin-bottom: 20px;
@@ -112,7 +114,7 @@
 }
 
 .email-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #e2e8f0;
   padding-bottom: 8px;
   margin-bottom: 10px;
   font-family: monospace;
@@ -121,7 +123,7 @@
 
 .email-body {
   font-size: 0.95rem;
-  color: #cbd5e1;
+  color: #334155;
   margin-bottom: 15px;
 }
 
@@ -134,9 +136,9 @@
   flex: 1;
   padding: 8px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid #cbd5e1;
   background: transparent;
-  color: white;
+  color: #111827;
   cursor: pointer;
 }
 
@@ -162,10 +164,10 @@
 .onboarding-form .password-input {
   width: 100%;
   margin-bottom: 15px;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
   padding: 12px 15px;
-  color: white;
+  color: #111827;
   border-radius: 8px;
   outline: none;
 }

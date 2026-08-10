@@ -320,7 +320,7 @@ function Admin() {
   }
 
   return (
-    <div className="admin-wrapper" style={{ padding: "40px", color: "white" }}>
+    <div className="admin-wrapper" style={{ padding: "40px", color: "#111827" }}>
       <div style={{ maxWidth: "1200px", width: "100%", margin: "0 auto" }}>
         <div
           style={{
@@ -328,10 +328,10 @@ function Admin() {
             justifyContent: "space-between",
             alignItems: "center",
             marginBottom: "30px",
-            background: "rgba(255,255,255,0.03)",
+            background: "#f8fafc",
             padding: "20px",
             borderRadius: "15px",
-            border: "1px solid rgba(255,255,255,0.1)",
+            border: "1px solid #e2e8f0",
           }}
         >
           <div>
