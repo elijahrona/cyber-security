@@ -177,6 +177,72 @@
   box-shadow: 0 0 10px rgba(34, 211, 238, 0.1);
 }
 
+/* Light-theme controls and contrast safeguards */
+.quiz-wrapper button {
+  font: inherit;
+}
+
+.quiz-wrapper .btn-primary {
+  background: #0e7490;
+  color: #ffffff;
+  border: 1px solid #0e7490;
+  box-shadow: 0 4px 12px rgba(14, 116, 144, 0.2);
+}
+
+.quiz-wrapper .btn-primary:hover {
+  background: #155e75;
+  border-color: #155e75;
+}
+
+.quiz-wrapper .btn-secondary,
+.quiz-wrapper .btn-secondary-custom {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #64748b !important;
+  border-radius: 12px;
+  padding: 11px 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.quiz-wrapper .btn-secondary:hover,
+.quiz-wrapper .btn-secondary-custom:hover {
+  background: #f1f5f9 !important;
+  border-color: #0e7490 !important;
+  color: #0e7490 !important;
+}
+
+.quiz-wrapper input,
+.quiz-wrapper select,
+.quiz-wrapper textarea {
+  color: #111827;
+  background-color: #ffffff;
+  border-color: #94a3b8;
+}
+
+.quiz-wrapper input::placeholder,
+.quiz-wrapper textarea::placeholder {
+  color: #64748b;
+  opacity: 1;
+}
+
+/* Several activities use inline colors from the original dark theme. */
+.quiz-wrapper :not(button)[style*="color: rgb(226, 232, 240)"],
+.quiz-wrapper :not(button)[style*="color: rgb(203, 213, 225)"],
+.quiz-wrapper :not(button)[style*="color: white"],
+.quiz-wrapper :not(button)[style*="color: rgb(255, 255, 255)"] {
+  color: #1e293b !important;
+}
+
+.quiz-wrapper [style*="background: rgb(15, 23, 42)"],
+.quiz-wrapper [style*="background: rgb(30, 41, 59)"],
+.quiz-wrapper [style*="background-color: rgb(15, 23, 42)"],
+.quiz-wrapper [style*="background-color: rgb(30, 41, 59)"] {
+  background: #f8fafc !important;
+  color: #1e293b !important;
+  border-color: #cbd5e1 !important;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

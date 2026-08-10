@@ -59,15 +59,16 @@
   padding: 12px;
   border-radius: 12px;
   border: none;
-  background: #22d3ee;
-  color: #0f172a;
+  background: #0e7490;
+  color: #ffffff;
   font-weight: bold;
   cursor: pointer;
   transition: opacity 0.3s;
 }
 
 .btn-primary:hover {
-  opacity: 0.9;
+  background: #155e75;
+  opacity: 1;
 }
 
 .error-message {
@@ -82,13 +83,35 @@
 .btn-secondary {
   display: inline-block;
   margin-top: 15px;
-  color: #475569;
+  color: #0f172a !important;
+  background: #ffffff !important;
+  border: 1px solid #64748b !important;
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-weight: 600;
   text-decoration: none;
   font-size: 0.85rem;
 }
 
 .btn-secondary:hover {
+  color: #0e7490 !important;
+  background: #f1f5f9 !important;
+  border-color: #0e7490 !important;
+}
+
+.admin-wrapper input,
+.admin-wrapper select,
+.admin-wrapper textarea {
   color: #111827;
+  background-color: #ffffff;
+  border-color: #94a3b8;
+}
+
+.admin-wrapper :not(button)[style*="color: rgb(226, 232, 240)"],
+.admin-wrapper :not(button)[style*="color: rgb(203, 213, 225)"],
+.admin-wrapper :not(button)[style*="color: white"],
+.admin-wrapper :not(button)[style*="color: rgb(255, 255, 255)"] {
+  color: #1e293b !important;
 }
 
 .dashboard-grid {

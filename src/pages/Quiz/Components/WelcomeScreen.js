@@ -20,16 +20,16 @@ function WelcomeScreen({
         style={{
           margin: "25px 0",
           padding: "15px",
-          background: "rgba(255,255,255,0.05)",
+          background: "#f8fafc",
           borderRadius: "12px",
-          border: "1px solid rgba(255,255,255,0.1)",
+          border: "1px solid #cbd5e1",
         }}
       >
         <label
           style={{
             display: "block",
             fontSize: "0.8rem",
-            color: "#94a3b8",
+            color: "#334155",
             marginBottom: "8px",
             textTransform: "uppercase",
             letterSpacing: "1px",
@@ -45,10 +45,10 @@ function WelcomeScreen({
           style={{
             width: "100%",
             padding: "12px",
-            background: "#0f172a",
-            border: "1px solid #334155",
+            background: "#ffffff",
+            border: "1px solid #64748b",
             borderRadius: "8px",
-            color: "white",
+            color: "#111827",
             outline: "none",
             fontSize: "1rem",
           }}
@@ -85,7 +85,7 @@ function WelcomeScreen({
             padding: "12px 25px",
             borderRadius: "12px",
             background: "none",
-            color: "white",
+            color: "#0f172a",
             cursor: "pointer",
           }}
           onClick={onShowInstructions}
