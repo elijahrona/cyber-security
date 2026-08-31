@@ -126,13 +126,13 @@ const TrainingEffectivenessAnalyst = ({ dataset = [] }) => {
   return (
     <div
       style={{
-        background: "#ffffff",
-        color: "#111827",
+        background: "#0f172a",
+        color: "#f8fafc",
         padding: "30px",
         borderRadius: "24px",
-        border: "1px solid #e2e8f0",
+        border: "1px solid #334155",
         fontFamily: "Inter, system-ui, sans-serif",
-        boxShadow: "0 20px 25px -5px rgba(15, 23, 42, 0.1)",
+        boxShadow: "0 20px 25px -5px rgba(2, 6, 23, 0.35)",
       }}
     >
       {/* Structural Header Control Block */}
