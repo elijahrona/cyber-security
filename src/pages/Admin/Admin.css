@@ -4,14 +4,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
-  color: #111827;
+  background-color: #0f172a;
+  color: #f8fafc;
   font-family: "Segoe UI", sans-serif;
 }
 
 .login-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: #1e293b;
+  border: 1px solid #475569;
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
   padding: 40px;
   border-radius: 24px;
@@ -32,7 +32,7 @@
 }
 
 .login-card p {
-  color: #475569;
+  color: #cbd5e1;
   margin-bottom: 25px;
   font-size: 0.9rem;
 }
@@ -42,8 +42,8 @@
   padding: 12px 16px;
   border-radius: 12px;
   border: 1px solid #cbd5e1;
-  background: #ffffff;
-  color: #111827;
+  background: #0f172a;
+  color: #f8fafc;
   font-size: 1rem;
   margin-bottom: 15px;
   outline: none;
@@ -83,8 +83,8 @@
 .btn-secondary {
   display: inline-block;
   margin-top: 15px;
-  color: #0f172a !important;
-  background: #ffffff !important;
+  color: #f8fafc !important;
+  background: #1e293b !important;
   border: 1px solid #64748b !important;
   border-radius: 10px;
   padding: 9px 14px;
@@ -94,16 +94,16 @@
 }
 
 .btn-secondary:hover {
-  color: #0e7490 !important;
-  background: #f1f5f9 !important;
-  border-color: #0e7490 !important;
+  color: #67e8f9 !important;
+  background: #334155 !important;
+  border-color: #22d3ee !important;
 }
 
 .admin-wrapper input,
 .admin-wrapper select,
 .admin-wrapper textarea {
-  color: #111827;
-  background-color: #ffffff;
+  color: #f8fafc;
+  background-color: #1e293b;
   border-color: #94a3b8;
 }
 
@@ -111,7 +111,7 @@
 .admin-wrapper :not(button)[style*="color: rgb(203, 213, 225)"],
 .admin-wrapper :not(button)[style*="color: white"],
 .admin-wrapper :not(button)[style*="color: rgb(255, 255, 255)"] {
-  color: #1e293b !important;
+  color: #f8fafc !important;
 }
 
 .dashboard-grid {
@@ -121,8 +121,8 @@
 }
 
 .admin-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: #1e293b;
+  border: 1px solid #475569;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
   padding: 25px;
   border-radius: 20px;
@@ -134,7 +134,7 @@
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #475569;
+  color: #cbd5e1;
 }
 
 .card-main-val {
@@ -144,7 +144,7 @@
 }
 
 .card-sub-val {
-  color: #475569;
+  color: #cbd5e1;
   font-size: 0.85rem;
 }
 
@@ -185,7 +185,7 @@
 .slider-track {
   position: relative;
   display: flex;
-  background: #f1f5f9;
+  background: #1e293b;
   border: 1px solid #cbd5e1;
   padding: 4px;
   border-radius: 12px;
@@ -196,7 +196,7 @@
   flex: 1;
   background: none;
   border: none;
-  color: #64748b;
+  color: #cbd5e1;
   padding: 10px;
   cursor: pointer;
   z-index: 2;
@@ -228,7 +228,7 @@
 
 /* Table Styling */
 .table-container {
-  background: #ffffff;
+  background: #1e293b;
   border-radius: 20px;
   border: 1px solid #e2e8f0;
   overflow: hidden;
@@ -242,11 +242,11 @@
 }
 
 .admin-table th {
-  background: #f8fafc;
+  background: #0f172a;
   padding: 15px 20px;
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: #475569;
+  color: #cbd5e1;
   border-bottom: 1px solid #e2e8f0;
 }
 
@@ -283,7 +283,7 @@
 
 .download-notice {
   font-size: 0.85rem;
-  color: #475569;
+  color: #cbd5e1;
 }
 
 .field-legend h4 {
@@ -307,7 +307,7 @@
 
 .legend-item strong {
   font-size: 0.85rem;
-  color: #111827;
+  color: #f8fafc;
 }
 
 .legend-item span {

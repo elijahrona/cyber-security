@@ -1,8 +1,8 @@
 /* Home.css */
 .home-container {
   min-height: 100vh;
-  background-color: #ffffff;
-  color: #111827;
+  background-color: #0f172a;
+  color: #f8fafc;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   flex-direction: column;
@@ -35,11 +35,11 @@
 }
 
 .badge {
-  background: #ecfeff;
-  border: 1px solid #a5f3fc;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 8px 16px;
   border-radius: 20px;
-  color: #0e7490;
+  color: #67e8f9;
   font-size: 0.9rem;
   font-weight: 600;
   display: inline-block;
@@ -50,14 +50,14 @@ h1 {
   font-size: clamp(2.5rem, 8vw, 4rem);
   margin: 0 0 20px 0;
   line-height: 1.1;
-  background: linear-gradient(to bottom, #020617, #334155);
+  background: linear-gradient(to bottom, #ffffff, #cbd5e1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .description {
   font-size: 1.2rem;
-  color: #475569;
+  color: #cbd5e1;
   line-height: 1.6;
   margin-bottom: 50px;
 }
@@ -74,9 +74,9 @@ h1 {
 }
 
 .action-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+  background: rgba(30, 41, 59, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 32px rgba(2, 6, 23, 0.28);
   padding: 40px;
   border-radius: 24px;
   text-align: left;
@@ -87,7 +87,7 @@ h1 {
 }
 
 .action-card:hover {
-  background: #f8fafc;
+  background: rgba(51, 65, 85, 0.85);
   border-color: #22d3ee;
   transform: translateY(-5px);
 }
@@ -100,18 +100,18 @@ h1 {
 .action-card h2 {
   font-size: 1.5rem;
   margin-bottom: 12px;
-  color: #111827;
+  color: #f8fafc;
 }
 
 .action-card p {
-  color: #475569;
+  color: #cbd5e1;
   font-size: 1rem;
   margin: 0;
 }
 
 .card-link {
   margin-top: 25px;
-  color: #0e7490;
+  color: #67e8f9;
   font-weight: bold;
   font-size: 0.9rem;
 }
